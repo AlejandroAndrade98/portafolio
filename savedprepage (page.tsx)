@@ -1,0 +1,105 @@
+"use client";
+
+import Image from "next/image";
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function Home() {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const image1Ref = useRef<HTMLDivElement | null>(null);
+  const image2Ref = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+        },
+      });
+
+      // Imagen 1: ligero zoom out y fade out
+      tl.fromTo(
+        image1Ref.current,
+        { scale: 1.1, opacity: 1 },
+        { scale: 1, opacity: 0, duration: 0.35 }
+      )
+
+        // TEXTO: entra gigante y se hace "normal"
+        .fromTo(
+          textRef.current,
+          { opacity: 0, scale: 3 },
+          { opacity: 1, scale: 1, duration: 0.3 },
+          "<0.1"
+        )
+
+        // TEXTO: se sigue encogiendo y se desvanece
+        .to(textRef.current, {
+          opacity: 0,
+          scale: 0.3,
+          duration: 0.4,
+        })
+
+        // Imagen 2: aparece al final
+        .fromTo(
+          image2Ref.current,
+          { opacity: 0, scale: 1.1 },
+          { opacity: 1, scale: 1, duration: 0.4 },
+          "<"
+        );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <main className="text-white">
+      <div ref={sectionRef} className="relative h-[300vh]">
+        <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
+          {/* Imagen 1 */}
+          <div ref={image1Ref} className="absolute inset-0">
+            <Image
+              src="/home-1-desktop.png"
+              alt="Fondo 1"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+
+          {/* Imagen 2 */}
+          <div ref={image2Ref} className="absolute inset-0">
+            <Image
+              src="/home-2-desktop.png"
+              alt="Fondo 2"
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          {/* Texto central con fuente GTA */}
+          <div ref={textRef} className="relative z-10 px-4">
+            <h1 className="text-5xl md:text-8xl font-bold tracking-tight uppercase text-center"
+                style={{ fontFamily: "GTA, system-ui, sans-serif" }}>
+              Software developer
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      {/* Sección siguiente */}
+      <section className="min-h-screen bg-zinc-900 flex items-center justify-center">
+        <p className="text-xl">Aquí siguen las siguientes secciones del portfolio.</p>
+      </section>
+    </main>
+  );
+}
