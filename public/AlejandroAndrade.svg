@@ -1,0 +1,18 @@
+<svg width="1400" height="400" viewBox="0 0 1400 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title {
+      font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 800;
+      fill: #ffffff;
+      letter-spacing: -0.035em;
+    }
+  </style>
+
+  <text x="50%" y="190" text-anchor="middle" class="title" font-size="160">
+    Alejandro
+  </text>
+
+  <text x="50%" y="330" text-anchor="middle" class="title" font-size="160">
+    Andrade
+  </text>
+</svg>
