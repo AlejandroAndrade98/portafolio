@@ -21,6 +21,8 @@ import about from "@/content/about.json";
 import LightPillar from "@/components/animate-ui/LightPillar";
 import LightRays from "@/components/animate-ui/LightRays";
 
+import ProfileCard from "@/components/ProfileCard"
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -193,61 +195,85 @@ export default function Home() {
             IMPORTANTE:
             Esto va FUERA de #logo-mask para que la máscara NO recorte el contenido.
             Si lo dejas dentro, cuando el mask-size se anime puede "comerse" tus componentes. */}
-        <div
-          id="hero-overlay"
-          className="fixed inset-0 z-20 flex items-center justify-center px-6 md:px-16 pointer-events-auto"
-        >
-<div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-  {/* IZQUIERDA: Magic Bento */}
-  <div className="flex justify-center md:justify-start">
-    <div className="w-full max-w-[520px]">
-      <MagicBento
-        glowColor="34, 211, 238"
-        enableStars
-        enableSpotlight
-        enableBorderGlow
+
+<div
+  id="hero-overlay"
+  className="fixed inset-0 z-20 flex items-center justify-center px-4 sm:px-6 lg:px-16 pointer-events-auto"
+>
+  <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 items-center">
+    {/* 1) Magic Bento */}
+    <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+      <div className="w-full max-w-[520px]">
+        <MagicBento
+          glowColor="34, 211, 238"
+          enableStars
+          enableSpotlight
+          enableBorderGlow
+          enableTilt
+          enableMagnetism
+          clickEffect
+          textAutoHide
+          spotlightRadius={280}
+          particleCount={10}
+          cards={[
+            {
+              id: "about",
+              label: "About",
+              title: "Sobre mí",
+              description: "Quién soy, qué construyo y cómo pienso.",
+              targetSelector: "#about",
+              color: "rgba(5, 10, 25, 0.55)",
+            },
+            {
+              id: "stack",
+              label: "Stack",
+              title: "Tecnologías",
+              description: "Next.js, React, Node, AWS, MySQL, Prisma…",
+              targetSelector: "#stack",
+              color: "rgba(5, 10, 25, 0.55)",
+            },
+            {
+              id: "projects",
+              label: "Projects",
+              title: "Proyectos",
+              description: "Spellbook, Embipos, Labs y más.",
+              targetSelector: "#projects",
+              color: "rgba(5, 10, 25, 0.55)",
+            },
+          ]}
+        />
+      </div>
+    </div>
+
+    {/* 2) ProfileCard (CENTRO) */}
+    <div className="order-1 lg:order-2 flex justify-center">
+      <div className="w-full max-w-[420px]">
+      <ProfileCard
+        name="Alejandro Andrade"
+        title="Software Developer"
+        handle="alejandroandrade"
+        status="Online"
+        contactText="Contact Me"
+        avatarUrl="/perfil.jpeg"
+
+        iconUrl="/profile-card/grain.png"
+        // grainUrl="/profile-card/icon.svg"
+        showUserInfo
         enableTilt
-        enableMagnetism
-        clickEffect
-        textAutoHide
-        spotlightRadius={280}
-        particleCount={10}
-        cards={[
-          {
-            id: "about",
-            label: "About",
-            title: "Sobre mí",
-            description: "Quién soy, qué construyo y cómo pienso.",
-            targetSelector: "#about",
-            color: "rgba(5, 10, 25, 0.55)",
-          },
-          {
-            id: "stack",
-            label: "Stack",
-            title: "Tecnologías",
-            description: "Next.js, React, Node, AWS, MySQL, Prisma…",
-            targetSelector: "#stack",
-            color: "rgba(5, 10, 25, 0.55)",
-          },
-          {
-            id: "projects",
-            label: "Projects",
-            title: "Proyectos",
-            description: "Spellbook, Embipos, Labs y más.",
-            targetSelector: "#projects",
-            color: "rgba(5, 10, 25, 0.55)",
-          },
-        ]}
+        enableMobileTilt={false}
       />
+      </div>
+    </div>
+
+    {/* 3) Radial Intro */}
+    <div className="order-3 flex justify-center lg:justify-end">
+      <div className="scale-[0.9] sm:scale-100">
+        <RadialIntro orbitItems={orbitItems} />
+      </div>
     </div>
   </div>
-
-  {/* DERECHA: Radial Intro (orbita de tech stack) */}
-  <div className="flex justify-center md:justify-end">
-    <RadialIntro orbitItems={orbitItems} />
-  </div>
 </div>
-        </div>
+
 
         {/* ✅ Header SIEMPRE visible */}
         <div className="fixed inset-0 z-30 flex flex-col items-center justify-between h-screen px-20 p-16 w-full pointer-events-none">
@@ -262,6 +288,8 @@ export default function Home() {
       {/* ✅ CORRECCIÓN: lo movimos FUERA de #about para que NO herede opacity 0 */}
       <div id="about-bg" className="fixed inset-0 z-1 pointer-events-none opacity-0">
         <LightRays
+
+        
           raysOrigin="top-center"
           raysColor="#38BDF8"
           raysSpeed={1.35}
