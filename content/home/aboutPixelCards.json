@@ -1,0 +1,34 @@
+[
+  {
+    "id": "hs",
+    "variant": "blue",
+    "label": "Soporte",
+    "title": "Hardware + Software",
+    "desc": "Troubleshooting — equipos — entornos corporativos.",
+    "img": "/about/hardware-software.jpg"
+  },
+  {
+    "id": "fb",
+    "variant": "default",
+    "label": "Desarrollo",
+    "title": "Front + Back",
+    "desc": "Interfaces modernas — APIs — arquitectura limpia.",
+    "img": "/about/frontend-backend.jpg"
+  },
+  {
+    "id": "db",
+    "variant": "yellow",
+    "label": "Datos",
+    "title": "Bases de datos",
+    "desc": "Modelado — MySQL — Prisma — rendimiento.",
+    "img": "/about/databases.jpg"
+  },
+  {
+    "id": "ai",
+    "variant": "pink",
+    "label": "Futuro cercano",
+    "title": "IA + Automatización",
+    "desc": "Procesos inteligentes — tooling — optimización.",
+    "img": "/about/ai-in-progress.jpg"
+  }
+]
