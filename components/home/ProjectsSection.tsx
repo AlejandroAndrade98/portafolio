@@ -3,7 +3,6 @@
 import * as React from "react";
 import Image from "next/image";
 import { ExternalLink, Github } from "lucide-react";
-import { useProjectsShowcaseGsap } from "@/hooks/useProjectsShowcaseGsap";
 
 type ProjectsShowcaseData = typeof import("@/content/home/projectsShowcase.json");
 type ShowcaseItem = ProjectsShowcaseData["items"][number];
@@ -16,7 +15,6 @@ type ProjectsSectionProps = {
 
 export default function ProjectsSection({ title, subtitle, items }: ProjectsSectionProps) {
   const sectionRef = React.useRef<HTMLElement | null>(null);
-  useProjectsShowcaseGsap(sectionRef);
 
   return (
     <section
@@ -24,8 +22,14 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
       ref={sectionRef}
       className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:px-12"
     >
+      {/* Fondo propio de Projects (NO fixed, NO swap)
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(79,70,229,0.22),transparent_55%),radial-gradient(circle_at_70%_55%,rgba(34,211,238,0.14),transparent_60%)]" />
+        <div className="absolute inset-0 bg-black/35" />
+      </div> */}
+
       {/* header */}
-      <div className="mb-14 text-center">
+      <div data-projects-head className="mb-14 text-center">
         <h2 className="text-4xl font-semibold tracking-tight">{title}</h2>
         <p className="mt-3 text-white/70 text-lg max-w-2xl mx-auto">{subtitle}</p>
       </div>
@@ -63,9 +67,7 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
                   </div>
                 </div>
 
-                <p className="mt-4 text-white/75 leading-relaxed">
-                  {p.description}
-                </p>
+                <p className="mt-4 text-white/75 leading-relaxed">{p.description}</p>
 
                 {!!p.tech?.length && (
                   <div className="mt-5 flex flex-wrap gap-2">
@@ -133,14 +135,10 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
                         priority={idx === 0 && i === 0}
                       />
 
-                      {/* overlay premium */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60" />
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                      {/* borde glow sutil */}
                       <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10 group-hover:ring-white/20 transition" />
-
-                      {/* punto esquina simétrico */}
                       <div className="absolute top-4 right-4 h-2.5 w-2.5 rounded-full bg-white/20 group-hover:bg-white/55 transition" />
                     </div>
                   ))}
@@ -150,6 +148,8 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
           );
         })}
       </div>
+
+      <div id="projects-exit" aria-hidden className="h-px w-full" />
     </section>
   );
 }

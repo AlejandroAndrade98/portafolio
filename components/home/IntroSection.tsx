@@ -34,12 +34,7 @@ export default function IntroSection({ hero, orbitItems, orbit }: IntroSectionPr
 
   return (
     <section id="intro" className="relative h-[200vh]">
-      <div
-        id="fade-layer"
-        className="fixed inset-0 z-[999] bg-black pointer-events-none"
-        style={{ opacity: 0 }}
-      />
-
+      
       <div id="ambient-bg" className="fixed inset-0 z-0 opacity-0 pointer-events-none">
         <div className="absolute inset-0">
           <LightPillar

@@ -4,14 +4,13 @@ import { useRef } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useIntroGsap } from "@/hooks/useIntroGsap";
 import { useOrbit3D } from "@/hooks/useOrbit3D";
-import { useSectionFades } from "@/hooks/useSectionFades";
+
 
 import hero from "@/content/home/hero.json";
 import about from "@/content/home/about.json";
 import aboutPixelCards from "@/content/home/aboutPixelCards.json";
 import stack from "@/content/home/stack.json";
 import projectsShowcase from "@/content/home/projectsShowcase.json";
-
 import { orbitItems } from "@/lib/heroOrbitItems";
 
 import IntroSection from "@/components/home/IntroSection";
@@ -23,24 +22,24 @@ export default function HomeClient() {
   const mainRef = useRef<HTMLElement | null>(null);
   const isMobile = useMediaQuery("(max-width: 1024px)");
 
+  // ✅ overlay global – se usa para intro y para about->projects
+  // (IMPORTANTE: ya no debe existir otro #fade-layer en IntroSection)
   useIntroGsap(mainRef, isMobile);
-  useSectionFades(mainRef);
+  // useAboutProjectsTransition(mainRef, isMobile);
 
   const orbit = useOrbit3D(isMobile);
 
   return (
     <main ref={mainRef} className="relative">
-      {/* Fade global entre secciones */}
       <div
-        id="section-fade"
-        className="fixed inset-0 z-9999 bg-black pointer-events-none"
+        id="fade-layer"
+        className="fixed inset-0 z-[9999] bg-black pointer-events-none"
         style={{ opacity: 0 }}
       />
 
       <IntroSection hero={hero} orbitItems={orbitItems} orbit={orbit} />
       <AboutSection about={about} pixelCards={aboutPixelCards} />
 
-      {/* ✅ Todo desde projectsShowcase.json */}
       <ProjectsSection
         title={projectsShowcase.title}
         subtitle={projectsShowcase.subtitle}

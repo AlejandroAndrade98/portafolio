@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import PixelCard from "@/components/reactbits/PixelCard";
 
@@ -8,7 +8,7 @@ type CardVariant = "default" | "blue" | "yellow" | "pink";
 
 type CardItem = {
   id: string;
-  variant?: string; // ✅ viene del JSON como string
+  variant?: string; // viene del JSON como string
   title: string;
   label: string;
   desc: string;
@@ -24,6 +24,10 @@ function mod(n: number, m: number) {
   return ((n % m) + m) % m;
 }
 
+function getIsDesktop() {
+  return typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches;
+}
+
 export default function PixelCardCarousel({
   items,
   className = "",
@@ -37,22 +41,49 @@ export default function PixelCardCarousel({
   const trackRef = useRef<HTMLDivElement | null>(null);
   const firstCardRef = useRef<HTMLDivElement | null>(null);
 
-  const [isDesktop, setIsDesktop] = useState(false);
   const [containerW, setContainerW] = useState(0);
   const [cardW, setCardW] = useState(0);
 
-  const [index, setIndex] = useState(0);
+  // 1) isDesktop arranca desde matchMedia (client-safe)
+  const [isDesktop, setIsDesktop] = useState<boolean>(() => getIsDesktop());
+
+  // 2) index arranca: desktop = 1, mobile = 0
+  const [index, setIndex] = useState<number>(() => {
+    const start = getIsDesktop() ? 1 : 0;
+    return N ? mod(start, N) : 0;
+  });
+
+  // Para no resetear el index después de que el usuario ya movió el carrusel
+  const hasUserInteracted = useRef(false);
 
   const gap = isDesktop ? 24 : 12;
 
+  // Detecta cambios de breakpoint
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const update = () => setIsDesktop(mq.matches);
+
     update();
     mq.addEventListener?.("change", update);
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
+  // Si items llegan después o cambian de tamaño, y el usuario NO ha interactuado,
+  // aplicamos el start correcto (desktop:1 / mobile:0).
+  useEffect(() => {
+    if (!N) return;
+
+    // Si el usuario ya tocó el carrusel, solo aseguramos que el index siga siendo válido.
+    if (hasUserInteracted.current) {
+      setIndex((v) => mod(v, N));
+      return;
+    }
+
+    const start = isDesktop ? 1 : 0;
+    setIndex(mod(start, N));
+  }, [N, isDesktop]);
+
+  // Medición
   useLayoutEffect(() => {
     if (!containerRef.current) return;
 
@@ -74,7 +105,7 @@ export default function PixelCardCarousel({
   const stride = cardW + gap;
 
   const translateX = useMemo(() => {
-    if (!containerW || !cardW) return 0;
+    if (!containerW || !cardW || !N) return 0;
 
     const centerX = containerW / 2;
 
@@ -83,9 +114,10 @@ export default function PixelCardCarousel({
       return centerX - cardCenter;
     }
 
+    // En desktop se centra el "par" (index y index+1)
     const pairMid = index * stride + cardW + gap / 2;
     return centerX - pairMid;
-  }, [containerW, cardW, gap, index, isDesktop, stride]);
+  }, [containerW, cardW, gap, index, isDesktop, stride, N]);
 
   const centers = useMemo(() => {
     if (!N) return new Set<number>();
@@ -108,8 +140,17 @@ export default function PixelCardCarousel({
     return s;
   }, [index, isDesktop, N]);
 
-  const prev = () => setIndex((v) => mod(v - 1, N));
-  const next = () => setIndex((v) => mod(v + 1, N));
+  const prev = () => {
+    if (!N) return;
+    hasUserInteracted.current = true;
+    setIndex((v) => mod(v - 1, N));
+  };
+
+  const next = () => {
+    if (!N) return;
+    hasUserInteracted.current = true;
+    setIndex((v) => mod(v + 1, N));
+  };
 
   const drag = useRef({
     down: false,
@@ -122,12 +163,15 @@ export default function PixelCardCarousel({
   const [dragTranslate, setDragTranslate] = useState<number | null>(null);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !N) return;
+    hasUserInteracted.current = true;
+
     drag.current.down = true;
     drag.current.startX = e.clientX;
     drag.current.startTranslate = translateX;
     drag.current.currentTranslate = translateX;
     drag.current.pointerId = e.pointerId;
+
     e.currentTarget.setPointerCapture?.(e.pointerId);
   };
 
@@ -143,7 +187,7 @@ export default function PixelCardCarousel({
     if (!drag.current.down) return;
     drag.current.down = false;
 
-    if (!containerW || !cardW) {
+    if (!containerW || !cardW || !N) {
       setDragTranslate(null);
       return;
     }
@@ -179,10 +223,7 @@ export default function PixelCardCarousel({
           style={{
             gap,
             transform: `translate3d(${dragTranslate ?? translateX}px,0,0)`,
-            transition:
-              dragTranslate === null
-                ? "transform 420ms cubic-bezier(.2,.9,.2,1)"
-                : "none",
+            transition: dragTranslate === null ? "transform 420ms cubic-bezier(.2,.9,.2,1)" : "none",
             willChange: "transform",
             paddingInline: isDesktop ? 24 : 6,
           }}
@@ -199,9 +240,7 @@ export default function PixelCardCarousel({
                   "shrink-0",
                   "w-[68vw] max-w-[320px] sm:w-[54vw] sm:max-w-[360px] lg:w-[380px] xl:w-[420px]",
                   "transition-all duration-300",
-                  isCenter
-                    ? "opacity-100 blur-0 scale-100"
-                    : "opacity-90 blur-[0.8px] scale-[0.97]",
+                  isCenter ? "opacity-100 blur-0 scale-100" : "opacity-90 blur-[0.8px] scale-[0.97]",
                 ].join(" ")}
               >
                 <PixelCard
@@ -221,12 +260,8 @@ export default function PixelCardCarousel({
                   </div>
 
                   <div className="absolute inset-0 z-[2] flex flex-col justify-end p-6">
-                    <p className="text-xs uppercase tracking-widest text-white/70">
-                      {it.label}
-                    </p>
-                    <h3 className="mt-1 text-xl font-semibold text-white">
-                      {it.title}
-                    </h3>
+                    <p className="text-xs uppercase tracking-widest text-white/70">{it.label}</p>
+                    <h3 className="mt-1 text-xl font-semibold text-white">{it.title}</h3>
                     <p className="mt-2 text-sm text-white/70">{it.desc}</p>
                   </div>
                 </PixelCard>
