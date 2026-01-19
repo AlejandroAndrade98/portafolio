@@ -1,46 +1,60 @@
 {
   "title": "Projects",
-  "subtitle": "Selección de proyectos — producto, UI y backend.",
+  "subtitle": "Algunos de los proyectos que he construido",
   "items": [
     {
       "id": "spellbook",
-      "title": "Spellbook MTG",
-      "description": "E-commerce de Magic: The Gathering con UI moderna, búsqueda y experiencia de compra fluida.",
+      "title": "Rohan Spellbook",
+      "description": "E-commerce para Magic: The Gathering con interfaz moderna y enfoque en UX.",
+      "tech": ["Next.js", "React", "Tailwind", "AWS"],
       "href": "https://rohanspellbook.com/",
-      "repo": "https://github.com/tu-user/tu-repo",
-      "tech": ["Next.js", "React", "Node.js", "AWS", "DB"],
-      "screenshots": [
-        { "src": "/projects/spellbook/1.jpg", "alt": "Home", "gridClass": "col-span-6 md:col-span-3 md:row-span-2" },
-        { "src": "/projects/spellbook/2.jpg", "alt": "Producto", "gridClass": "col-span-6 md:col-span-3 md:row-span-1" },
-        { "src": "/projects/spellbook/3.jpg", "alt": "Checkout", "gridClass": "col-span-6 md:col-span-2 md:row-span-1" },
-        { "src": "/projects/spellbook/4.jpg", "alt": "Admin", "gridClass": "col-span-6 md:col-span-4 md:row-span-1" }
-      ]
+      "repo": "",
+      "galleryKey": "spellbook"
     },
     {
-      "id": "embipos",
+      "id": "Delirios",
+      "title": "Delirios",
+      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
+      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "href": "https://deliriospasteleria.com/",
+      "repo": "",
+      "galleryKey": "Delirios"
+    },
+    {
+      "id": "Equiprocess",
+      "title": "Equiprocess",
+      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
+      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "href": "https://equiprocess-project.vercel.app/",
+      "repo": "",
+      "galleryKey": "Equiprocess"
+    },
+    {
+      "id": "example",
       "title": "Embipos",
-      "description": "POS para pastelería — API con autenticación, roles, productos, ventas y reportes.",
-      "href": "#",
-      "repo": "https://github.com/tu-user/embipos",
-      "tech": ["Express", "Prisma", "MySQL", "JWT"],
-      "screenshots": [
-        { "src": "/projects/embipos/1.jpg", "alt": "Dashboard", "gridClass": "col-span-6 md:col-span-4 md:row-span-2" },
-        { "src": "/projects/embipos/2.jpg", "alt": "Ventas", "gridClass": "col-span-6 md:col-span-2 md:row-span-1" },
-        { "src": "/projects/embipos/3.jpg", "alt": "Productos", "gridClass": "col-span-6 md:col-span-2 md:row-span-1" }
-      ]
+      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
+      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "href": "",
+      "repo": "",
+      "galleryKey": "embipos"
     },
     {
-      "id": "troubleshoot",
-      "title": "Troubleshoot-Labs",
-      "description": "Simulador interactivo para practicar troubleshooting IT con UI tipo laboratorio.",
-      "href": "#",
-      "repo": "https://github.com/tu-user/troubleshoot-labs",
-      "tech": ["React", "Tailwind", "UI"],
-      "screenshots": [
-        { "src": "/projects/troubleshoot/1.jpg", "alt": "Lab", "gridClass": "col-span-6 md:col-span-3 md:row-span-1" },
-        { "src": "/projects/troubleshoot/2.jpg", "alt": "Terminal", "gridClass": "col-span-6 md:col-span-3 md:row-span-2" },
-        { "src": "/projects/troubleshoot/3.jpg", "alt": "Resultado", "gridClass": "col-span-6 md:col-span-6 md:row-span-1" }
-      ]
+      "id": "example2",
+      "title": "Embipos",
+      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
+      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "href": "",
+      "repo": "",
+      "galleryKey": "embipos"
+    },
+    {
+      "id": "example3",
+      "title": "Embipos",
+      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
+      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "href": "",
+      "repo": "",
+      "galleryKey": "embipos"
     }
   ]
 }

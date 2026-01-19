@@ -65,7 +65,9 @@ export default function AboutSection({ about, pixelCards }: AboutSectionProps) {
   ))}
 </div>
 
-          <PixelCardCarousel className="mt-24" items={pixelCards} />
+          {/* <div className="mt-24">
+  <PixelCardCarousel items={pixelCards} />
+</div> */}
           {/* Sentinel para iniciar el fade ANTES de que se vea Projects */}
           <div id="about-exit" aria-hidden className="h-[35vh] w-full" />
         </div>

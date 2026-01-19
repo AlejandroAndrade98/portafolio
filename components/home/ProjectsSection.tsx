@@ -1,11 +1,18 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { ExternalLink, Github } from "lucide-react";
+import ExpandableGallery, { type GalleryMedia } from "@/components/ui/ExpandableGallery";
+import galleriesData from "@/content/home/projectsGalleries.json";
 
 type ProjectsShowcaseData = typeof import("@/content/home/projectsShowcase.json");
-type ShowcaseItem = ProjectsShowcaseData["items"][number];
+type BaseShowcaseItem = ProjectsShowcaseData["items"][number];
+
+type GalleryKey = keyof typeof galleriesData.galleries;
+
+type ShowcaseItem = Omit<BaseShowcaseItem, "galleryKey"> & {
+  galleryKey: GalleryKey;
+};
 
 type ProjectsSectionProps = {
   title: string;
@@ -22,78 +29,84 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
       ref={sectionRef}
       className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:px-12"
     >
-      {/* Fondo propio de Projects (NO fixed, NO swap)
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(79,70,229,0.22),transparent_55%),radial-gradient(circle_at_70%_55%,rgba(34,211,238,0.14),transparent_60%)]" />
-        <div className="absolute inset-0 bg-black/35" />
-      </div> */}
-
-      {/* header */}
       <div data-projects-head className="mb-14 text-center">
         <h2 className="text-4xl font-semibold tracking-tight">{title}</h2>
         <p className="mt-3 text-white/70 text-lg max-w-2xl mx-auto">{subtitle}</p>
       </div>
 
-      <div className="space-y-24">
+      <div className="flex flex-col gap-24">
         {items.map((p, idx) => {
           const flip = idx % 2 === 1;
 
+          const shots = galleriesData.galleries[p.galleryKey] ?? [];
+
+          const mediaItems: GalleryMedia[] = shots.map((s) =>
+            s.type === "video"
+              ? { type: "video", src: s.src, alt: s.alt, poster: s.poster }
+              : { type: "image", src: s.src, alt: s.alt }
+          );
+
+          const hasHref = typeof p.href === "string" && p.href.trim().length > 0;
+          const hasRepo = typeof p.repo === "string" && p.repo.trim().length > 0;
+
           return (
             <article
-              key={p.id}
+              key={`${p.id}-${idx}`} // ✅ evita colisiones si se repite p.id
               data-project
               className={[
                 "relative",
-                "grid items-start gap-10 lg:gap-14",
-                "lg:grid-cols-12",
+                "flex flex-col gap-10",
+                "lg:flex-row lg:gap-14",
+                flip ? "lg:flex-row-reverse" : "",
               ].join(" ")}
             >
-              {/* Columna texto */}
+              {/* ===== TEXTO ===== */}
               <div
                 data-project-head
                 className={[
-                  "lg:col-span-5",
-                  flip ? "lg:col-start-8" : "lg:col-start-1",
+                  "w-full",
+                  "lg:w-5/12",
+                  // ✅ igualamos el alto visual con la galería en desktop
+                  "lg:min-h-[420px]",
+                  "flex flex-col",
                 ].join(" ")}
               >
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <p className="text-white/40 text-sm tracking-[0.25em] uppercase">
-                      {String(idx + 1).padStart(2, "0")}
-                    </p>
-                    <h3 className="mt-2 text-3xl font-semibold tracking-tight">
-                      {p.title}
-                    </h3>
-                  </div>
+                <div>
+                  <p className="text-white/40 text-sm tracking-[0.25em] uppercase">
+                    {String(idx + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-2 text-3xl font-semibold tracking-tight">{p.title}</h3>
+
+                  <p className="mt-4 text-white/75 leading-relaxed">{p.description}</p>
+
+                  {!!p.tech?.length && (
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {p.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                <p className="mt-4 text-white/75 leading-relaxed">{p.description}</p>
+                <div className="mt-7 flex flex-wrap gap-3 lg:mt-auto lg:pt-7">
+                  {hasHref && (
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white/85 hover:bg-white/10 transition"
+                    >
+                      Ver proyecto
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  )}
 
-                {!!p.tech?.length && (
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {p.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <a
-                    href={p.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white/85 hover:bg-white/10 transition"
-                  >
-                    Ver proyecto
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-
-                  {p.repo && (
+                  {hasRepo && (
                     <a
                       href={p.repo}
                       target="_blank"
@@ -107,42 +120,13 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
                 </div>
               </div>
 
-              {/* Columna bento */}
-              <div
-                className={[
-                  "lg:col-span-7",
-                  flip ? "lg:col-start-1" : "lg:col-start-6",
-                ].join(" ")}
-              >
-                <div className="grid grid-cols-6 gap-3 auto-rows-[120px] sm:auto-rows-[150px] lg:auto-rows-[170px]">
-                  {p.screenshots.map((s, i) => (
-                    <div
-                      key={`${p.id}-${i}`}
-                      data-shot
-                      className={[
-                        "group relative overflow-hidden rounded-2xl",
-                        "border border-white/10 bg-white/5",
-                        "shadow-[0_20px_70px_rgba(0,0,0,0.45)]",
-                        s.gridClass,
-                      ].join(" ")}
-                    >
-                      <Image
-                        src={s.src}
-                        alt={s.alt ?? `${p.title} screenshot ${i + 1}`}
-                        fill
-                        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 70vw, 900px"
-                        className="object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                        priority={idx === 0 && i === 0}
-                      />
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-60" />
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-                      <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10 group-hover:ring-white/20 transition" />
-                      <div className="absolute top-4 right-4 h-2.5 w-2.5 rounded-full bg-white/20 group-hover:bg-white/55 transition" />
-                    </div>
-                  ))}
-                </div>
+              {/* ===== GALERÍA ===== */}
+              <div className="w-full lg:w-7/12">
+                <ExpandableGallery
+                  items={mediaItems}
+                  heightClass="h-[320px] sm:h-[360px] lg:h-[420px]"
+                  className="shadow-[0_20px_70px_rgba(0,0,0,0.45)]"
+                />
               </div>
             </article>
           );
