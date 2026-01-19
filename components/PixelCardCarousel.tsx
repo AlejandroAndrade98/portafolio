@@ -66,17 +66,24 @@ export default function PixelCardCarousel({
 
     setInitial();
 
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const onChange = () => setInitial();
+const mq = window.matchMedia("(min-width: 1024px)");
+const onChange = () => setInitial();
 
-    // Safari fallback
-    if ("addEventListener" in mq) mq.addEventListener("change", onChange);
-    else mq.addListener(onChange);
+if (typeof mq.addEventListener === "function") {
+  mq.addEventListener("change", onChange);
+} else {
+  // Safari / legacy fallback
+  (mq as MediaQueryList).addListener(onChange);
+}
 
-    return () => {
-      if ("removeEventListener" in mq) mq.removeEventListener("change", onChange);
-      else mq.removeListener(onChange);
-    };
+return () => {
+  if (typeof mq.removeEventListener === "function") {
+    mq.removeEventListener("change", onChange);
+  } else {
+    (mq as MediaQueryList).removeListener(onChange);
+  }
+};
+
   }, [N]);
 
   // ✅ centrar el card activo y permitir peek simétrico
