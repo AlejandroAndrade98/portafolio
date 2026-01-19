@@ -18,6 +18,9 @@ import AboutSection from "@/components/home/AboutSection";
 import StackSection from "@/components/home/StackSection";
 import ProjectsSection from "@/components/home/ProjectsSection";
 
+import type { ComponentProps } from "react";
+// import galleriesData from "@/content/home/projectsGalleries.json";
+
 export default function HomeClient() {
   const mainRef = useRef<HTMLElement | null>(null);
   const isMobile = useMediaQuery("(max-width: 1024px)");
@@ -28,6 +31,11 @@ export default function HomeClient() {
   // useAboutProjectsTransition(mainRef, isMobile);
 
   const orbit = useOrbit3D(isMobile);
+
+  type ProjectsSectionProps = ComponentProps<typeof ProjectsSection>;
+  type ShowcaseItem = ProjectsSectionProps["items"][number];
+
+  const items = projectsShowcase.items as unknown as ShowcaseItem[];
 
   return (
     <main ref={mainRef} className="relative">
@@ -43,7 +51,7 @@ export default function HomeClient() {
       <ProjectsSection
         title={projectsShowcase.title}
         subtitle={projectsShowcase.subtitle}
-        items={projectsShowcase.items}
+        items={items}
       />
 
       <StackSection title={stack.title} subtitle={stack.subtitle} />
