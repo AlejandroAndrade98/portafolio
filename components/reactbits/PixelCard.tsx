@@ -180,7 +180,7 @@ export default function PixelCard({
   className = "",
   active = false, 
   children,
-}: PixelCardProps): JSX.Element {
+}: PixelCardProps): React.ReactElement {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pixelsRef = useRef<Pixel[]>([]);
