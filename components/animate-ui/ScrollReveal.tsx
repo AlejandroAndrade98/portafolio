@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
+import type { ElementType, ComponentPropsWithoutRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type AsTag = keyof JSX.IntrinsicElements;
+type AsTag = ElementType;
 
 type ScrollRevealProps<T extends AsTag = "div"> = {
   as?: T;
@@ -26,7 +27,7 @@ type ScrollRevealProps<T extends AsTag = "div"> = {
 
   className?: string;
   textClassName?: string;
-} & Omit<JSX.IntrinsicElements[T], "as" | "children" | "className">;
+} & Omit<ComponentPropsWithoutRef<T>, "children" | "className">;
 
 function getTextIfPureString(node: React.ReactNode): string | null {
   if (typeof node === "string") return node;
