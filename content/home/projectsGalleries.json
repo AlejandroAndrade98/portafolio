@@ -19,7 +19,7 @@
       {
         "type": "video",
         "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideo1.webp",
+        "poster": "/projects/spellbook/rohanVideo1.mp4",
         "alt": "Video"
       }
     ],
@@ -92,7 +92,7 @@
       {
         "type": "video",
         "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideo1.webp",
+        "poster": "/projects/spellbook/rohanVideo1.mp4",
         "alt": "Video"
       }
     ],"example3": [
@@ -114,7 +114,7 @@
       {
         "type": "video",
         "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideo1.webp",
+        "poster": "/projects/spellbook/rohanVideo1.mp4",
         "alt": "Video"
       }
     ]

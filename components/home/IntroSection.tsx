@@ -5,13 +5,8 @@ import Image from "next/image";
 
 import { BubbleBackground } from "@/components/ui/shadcn-io/bubble-background";
 
-import type { Orbit3DController } from "@/hooks/useOrbit3D";
-import type { orbitItems as orbitItemsType } from "@/lib/heroOrbitItems";
-
 type IntroSectionProps = {
   hero: typeof import("@/content/home/hero.json");
-  orbitItems: typeof orbitItemsType;
-  orbit: Orbit3DController;
 };
 
 export default function IntroSection({ hero }: IntroSectionProps) {
@@ -40,7 +35,7 @@ export default function IntroSection({ hero }: IntroSectionProps) {
         </section>
       </div>
 
-      {/* Overlay (se deja el contenedor intacto, pero sin los 3 componentes) */}
+      {/* Overlay (se deja intacto para que tu GSAP no cambie IDs ni estructura base) */}
       <div id="hero-overlay" className="fixed inset-0 z-20 pointer-events-auto">
         <div className="mx-auto w-full max-w-6xl h-screen px-4 sm:px-6 lg:px-12">
           {/* Intencionalmente vacío por ahora */}
