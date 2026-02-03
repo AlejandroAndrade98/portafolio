@@ -44,6 +44,12 @@ export interface MagicBentoProps {
   className?: string;
 
   onCardClick?: (card: BentoCard) => void;
+
+  /**
+   * ✅ Nuevo:
+   * Pausa REAL del motor (sin desmontar ni reinstalar listeners/ticker/RAF)
+   */
+  isActive?: boolean;
 }
 
 const DEFAULT_PARTICLE_COUNT = 8;
@@ -56,12 +62,10 @@ const DEFAULT_IDLE_INTENSITY = 0.22;
 const DEFAULT_IDLE_SPEED = 0.6;
 const DEFAULT_IDLE_PADDING = 26;
 
-// ✅ CSS vars tipadas (sin any)
 type CSSVars = React.CSSProperties & {
   [key: `--${string}`]: string | number | undefined;
 };
 
-// ✅ Document.fonts sin any (evita depender de FontFaceSet si tu TS no lo tiene)
 type DocumentWithFonts = Document & {
   fonts?: { ready: Promise<unknown> };
 };
@@ -143,6 +147,8 @@ export default function MagicBento({
   disableAnimations = false,
   className = "",
   onCardClick,
+
+  isActive = true,
 }: MagicBentoProps) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
@@ -154,7 +160,18 @@ export default function MagicBento({
   const disableAll = disableAnimations || reduceMotion;
   const disableHoverFx = disableAll || isCoarse;
 
-  // ✅ Aquí lo dejas como querías: también en mobile
+  // ✅ ref para pausar sin reinstalar efectos
+  const activeRef = useRef<boolean>(isActive);
+  useEffect(() => {
+    activeRef.current = isActive;
+
+    // si se desactiva, apaga spotlight inmediatamente
+    const spot = spotlightRef.current;
+    if (!isActive && spot) {
+      spot.style.opacity = "0";
+    }
+  }, [isActive]);
+
   const effectiveTextAutoHide = textAutoHide;
 
   const resolvedLayout = useMemo(() => {
@@ -194,7 +211,6 @@ export default function MagicBento({
       .join(" ");
   }, [effectiveTextAutoHide, enableBorderGlow]);
 
-  // ✅ vars tipadas para style
   const sectionVars = useMemo<CSSVars>(() => {
     return { "--mb-glow-color": idleGlowColor };
   }, [idleGlowColor]);
@@ -215,7 +231,6 @@ export default function MagicBento({
 
     if (!section || !grid) return;
 
-    // ✅ En mobile/carrusel 3D: NO dependas de IntersectionObserver (puede falsear)
     let active = true;
     let io: IntersectionObserver | null = null;
 
@@ -268,6 +283,7 @@ export default function MagicBento({
 
     const schedule = () => {
       if (!active) return;
+      if (!activeRef.current) return; // ✅ pausa real
       if (scheduled) return;
       scheduled = true;
       raf = requestAnimationFrame(update);
@@ -333,10 +349,10 @@ export default function MagicBento({
       scheduled = false;
       raf = 0;
       if (!active) return;
+      if (!activeRef.current) return; // ✅ pausa real
 
       sectionRect = section.getBoundingClientRect();
 
-      // ✅ si está vacío (común en 3D al montar / al girar), remide
       if (!cardsInfo.length) measure();
 
       const now = Date.now();
@@ -351,6 +367,7 @@ export default function MagicBento({
 
     const onEnter = () => {
       if (!active) return;
+      if (!activeRef.current) return;
       state.hovering = true;
       measure();
       schedule();
@@ -363,6 +380,7 @@ export default function MagicBento({
 
     const onMove = (e: PointerEvent) => {
       if (!active) return;
+      if (!activeRef.current) return;
       if (disableHoverFx) return;
 
       const inside =
@@ -380,6 +398,7 @@ export default function MagicBento({
 
     const onPointerDown = (e: PointerEvent) => {
       if (!active) return;
+      if (!activeRef.current) return;
       if (!isCoarse) return;
 
       measure();
@@ -395,6 +414,7 @@ export default function MagicBento({
 
     let pendingMeasure = false;
     const scheduleMeasure = () => {
+      if (!activeRef.current) return;
       if (pendingMeasure) return;
       pendingMeasure = true;
       requestAnimationFrame(() => {
@@ -404,18 +424,18 @@ export default function MagicBento({
       });
     };
 
-    // ✅ CLAVE: burst de recálculo por ~700ms para cubrir transición 3D
     const recalcBurst = () => {
+      if (!activeRef.current) return;
       const end = performance.now() + 700;
 
       const tick = () => {
         if (!active) return;
+        if (!activeRef.current) return;
         measure();
         schedule();
         if (performance.now() < end) requestAnimationFrame(tick);
       };
 
-      // arranca con 2 RAF para que el DOM "termine" el snap
       requestAnimationFrame(() => requestAnimationFrame(tick));
     };
 
@@ -431,6 +451,7 @@ export default function MagicBento({
     let tickerAdded = false;
     const idleTick = () => {
       if (!active) return;
+      if (!activeRef.current) return; // ✅ pausa real
       if (!enableIdleGlow) return;
       if (!disableHoverFx && state.hovering) return;
 
@@ -464,10 +485,8 @@ export default function MagicBento({
     section.addEventListener("pointermove", onMove);
     section.addEventListener("pointerdown", onPointerDown);
 
-    // ✅ PRIMER PAINT: 2 RAF para esperar layout estable
     requestAnimationFrame(() => requestAnimationFrame(firstPaint));
 
-    // ✅ fonts pueden cambiar medidas (sin any)
     const doc = document as DocumentWithFonts;
     doc.fonts?.ready.then(() => recalcBurst()).catch(() => {});
 

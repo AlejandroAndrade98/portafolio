@@ -5,7 +5,6 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useIntroGsap } from "@/hooks/useIntroGsap";
 import { useOrbit3D } from "@/hooks/useOrbit3D";
 
-
 import hero from "@/content/home/hero.json";
 import about from "@/content/home/about.json";
 import aboutPixelCards from "@/content/home/aboutPixelCards.json";
@@ -19,7 +18,6 @@ import StackSection from "@/components/home/StackSection";
 import ProjectsSection from "@/components/home/ProjectsSection";
 
 import type { ComponentProps } from "react";
-// import galleriesData from "@/content/home/projectsGalleries.json";
 
 export default function HomeClient() {
   const mainRef = useRef<HTMLElement | null>(null);
@@ -28,7 +26,6 @@ export default function HomeClient() {
   // ✅ overlay global – se usa para intro y para about->projects
   // (IMPORTANTE: ya no debe existir otro #fade-layer en IntroSection)
   useIntroGsap(mainRef, isMobile);
-  // useAboutProjectsTransition(mainRef, isMobile);
 
   const orbit = useOrbit3D(isMobile);
 

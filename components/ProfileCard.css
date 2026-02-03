@@ -48,7 +48,10 @@
     transparent var(--behind-glow-size)
   );
 
-  filter: blur(38px) saturate(1.08);
+  /* ✅ PERF: blur menos agresivo + contain */
+  contain: paint;
+  filter: blur(22px) saturate(1.04);
+
   opacity: calc(0.85 * var(--card-opacity));
   transition: opacity 200ms ease;
 }
@@ -62,6 +65,9 @@
   z-index: 1;
   isolation: isolate;
   pointer-events: auto;
+
+  /* ✅ PERF: reduce radio de repaints */
+  contain: layout paint style;
 }
 
 .pc-card {
@@ -138,8 +144,15 @@
     scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.03));
 
   will-change: transform;
-  transition: transform 120ms ease-out;
+
+  /* ✅ PERF: transición solo en idle (tu tiltEngine ya suaviza) */
+  transition: transform 180ms ease-out;
   z-index: 1;
+}
+
+/* ✅ PERF: cuando hay RAF, sin transición (evita trabajo extra por frame) */
+.pc-card-wrapper.active .pc-avatar-layer {
+  transition: none;
 }
 
 .pc-avatar-layer .avatar {
@@ -147,7 +160,6 @@
   object-position: center;
   transform: translateZ(0);
 
-  /* menos brillante + más contraste */
   filter: grayscale(1) contrast(1.18) brightness(0.74);
 }
 
@@ -164,7 +176,7 @@
   opacity: 0.58;
 }
 
-/* viñeta suave para look “premium” */
+/* viñeta suave */
 .pc-vignette {
   z-index: 3;
   background: radial-gradient(
@@ -176,11 +188,9 @@
   opacity: 0.85;
 }
 
-/* ======= PATRÓN BASE (siempre visible suave) =======
-   Usamos el icon como MASK. Funciona perfecto con tu png blanco/negro */
+/* ======= PATRÓN BASE ======= */
 .pc-pattern {
   z-index: 4;
-
   background: rgba(255,255,255,0.18);
 
   -webkit-mask-image: var(--icon);
@@ -195,15 +205,15 @@
 
   opacity: 0.10;
   mix-blend-mode: overlay;
-  will-change: opacity;
+
+  /* ✅ PERF: no dejes will-change siempre activo */
+  will-change: auto;
 }
 
-/* ======= WAVE (TR -> TL) =======
-   La ola ilumina VARIOS símbolos mientras recorre */
+/* ======= WAVE ======= */
 .pc-wave {
   z-index: 5;
 
-  /* banda diagonal azul/cyan */
   background-image: linear-gradient(
     115deg,
     transparent 0%,
@@ -216,7 +226,6 @@
   background-size: 240% 240%;
   background-position: 130% -12%;
 
-  /* recorta la banda a los iconos (mask repetido) */
   -webkit-mask-image: var(--icon);
   -webkit-mask-repeat: repeat;
   -webkit-mask-size: var(--pc-pattern-size);
@@ -229,11 +238,12 @@
 
   mix-blend-mode: screen;
 
-  /* glow – moderado para performance */
-  filter: drop-shadow(0 0 12px rgba(90,160,255,0.35));
+  /* ✅ PERF: sin drop-shadow base (pesado) */
+  filter: none;
   opacity: 0.0;
 
-  will-change: opacity, background-position;
+  /* ✅ PERF: no dejes will-change siempre activo */
+  will-change: auto;
 }
 
 /* idle: ola visible sin hover */
@@ -242,21 +252,27 @@
   animation: pcWaveTRTL 6.6s ease-in-out infinite;
 }
 
-/* hover: más fuerte y se “ancla” un poco al puntero */
+/* hover/active */
 .pc-card-wrapper.active .pc-pattern {
   opacity: 0.16;
+}
+
+/* ✅ PERF: activa will-change solo cuando importa */
+.pc-card-wrapper.active .pc-pattern,
+.pc-card-wrapper.active .pc-wave {
+  will-change: opacity, background-position;
 }
 
 .pc-card-wrapper.active .pc-wave {
   opacity: 1;
   animation: none;
 
-  /* se mueve hacia el puntero (x) manteniendo arriba (y) */
   background-position: var(--background-x) -8%;
 
+  /* ✅ filtro más suave (desktop) */
   filter:
-    drop-shadow(0 0 14px rgba(90,160,255,0.55))
-    drop-shadow(0 0 26px rgba(34,211,238,0.18));
+    drop-shadow(0 0 10px rgba(90,160,255,0.38))
+    drop-shadow(0 0 18px rgba(34,211,238,0.12));
 }
 
 @keyframes pcWaveTRTL {
@@ -276,7 +292,19 @@
   }
 }
 
-/* ======= GRAIN (MUY GRANDE) ======= */
+/* ✅ PERF: en mobile/tablet evita repaints constantes del background-position */
+@media (max-width: 1024px) {
+  .pc-card-wrapper:not(.active) .pc-wave {
+    animation: none !important;
+    opacity: 0.35;
+  }
+
+  .pc-card-wrapper.active .pc-wave {
+    filter: none; /* sin drop-shadow */
+  }
+}
+
+/* ======= GRAIN ======= */
 .pc-grain {
   z-index: 6;
 
@@ -289,7 +317,7 @@
   mix-blend-mode: soft-light;
 }
 
-/* ======= SHINE / GLARE (suaves para no “quemar” y mejorar performance) ======= */
+/* ======= SHINE / GLARE ======= */
 .pc-shine {
   z-index: 7;
   background-image: radial-gradient(
@@ -338,7 +366,7 @@
   text-align: center;
   display: grid;
   gap: 2px;
-  padding: 0 10px; /* ↓ prueba 8px si aún se corta */
+  padding: 0 10px;
 }
 
 .pc-details h3,
@@ -350,10 +378,9 @@
     0 2px 6px rgba(0,0,0,0.25);
 }
 
-/* Nombre: más pequeño y que quepa completo */
 .pc-details h3 {
   font-weight: 700;
-  font-size: clamp(1.35rem, 2.15vw, 2.00rem); /* 👈 ESTA es la línea que vas testeando */
+  font-size: clamp(1.35rem, 2.15vw, 2.00rem);
   line-height: 1.05;
 
   white-space: nowrap;
@@ -373,10 +400,9 @@
   -webkit-background-clip: text;
 }
 
-/* Title: más grande */
 .pc-details p {
   font-weight: 700;
-  font-size: clamp(1.05rem, 1.25vw, 1.22rem); /* 👈 ESTA también */
+  font-size: clamp(1.05rem, 1.25vw, 1.22rem);
   line-height: 1.1;
   white-space: nowrap;
 
@@ -407,7 +433,7 @@
   gap: 12px;
 
   background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 18px;
   padding: 12px 14px;
@@ -415,11 +441,19 @@
   pointer-events: auto;
 }
 
+/* ✅ PERF: en mobile, quita backdrop-filter */
+@media (max-width: 768px) {
+  .pc-user-info {
+    backdrop-filter: none;
+    background: rgba(255,255,255,0.12);
+  }
+}
+
 .pc-user-details {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 0;      /* clave para que el texto pueda recortar bien */
+  min-width: 0;
   flex: 1 1 auto;
 }
 
@@ -505,7 +539,7 @@
   .pc-user-info { left: 14px; right: 14px; bottom: 14px; padding: 10px 12px; }
 }
 
-/* Reduce Motion (performance + accesibilidad) */
+/* Reduce Motion */
 @media (prefers-reduced-motion: reduce) {
   .pc-card,
   .pc-avatar-layer {

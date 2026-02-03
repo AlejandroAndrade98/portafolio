@@ -2,7 +2,7 @@
 
 import ScrollReveal from "@/components/animate-ui/ScrollReveal";
 import LightRays from "@/components/animate-ui/LightRays";
-import PixelCardCarousel from "@/components/PixelCardCarousel";
+// import PixelCardCarousel from "@/components/PixelCardCarousel";
 
 type AboutData = typeof import("@/content/home/about.json");
 type PixelCardsData = typeof import("@/content/home/aboutPixelCards.json");
@@ -35,7 +35,10 @@ export default function AboutSection({ about, pixelCards }: AboutSectionProps) {
         <div className="absolute inset-0 bg-black/10" />
       </div>
 
-      <section id="about" className="relative z-10 mx-auto max-w-5xl lg:max-w-6xl xl:max-w-7xl px-8 py-24">
+      <section
+        id="about"
+        className="relative z-10 mx-auto max-w-5xl lg:max-w-6xl xl:max-w-7xl px-8 py-24"
+      >
         <div id="about-content" className="relative z-10">
           <ScrollReveal
             as="h2"
@@ -48,26 +51,27 @@ export default function AboutSection({ about, pixelCards }: AboutSectionProps) {
             {about.title}
           </ScrollReveal>
 
-<div className="mt-24 space-y-6 text-[1.15rem] leading-relaxed text-white/80">
-  {about.paragraphs.map((p, idx) => (
-    <ScrollReveal
-      key={idx}
-      as="p"
-      className="text-[2.55rem] leading-[1.35] font-medium text-cyan-100/90"
-      baseOpacity={0}
-      enableBlur
-      blurStrength={20}
-      baseRotation={3}
-      y={20}
-    >
-      {p}
-    </ScrollReveal>
-  ))}
-</div>
+          <div className="mt-24 space-y-6 text-[1.15rem] leading-relaxed text-white/80">
+            {about.paragraphs.map((p, idx) => (
+              <ScrollReveal
+                key={idx}
+                as="p"
+                className="text-[2.55rem] leading-[1.35] font-medium text-cyan-100/90"
+                baseOpacity={0}
+                enableBlur
+                blurStrength={20}
+                baseRotation={3}
+                y={20}
+              >
+                {p}
+              </ScrollReveal>
+            ))}
+          </div>
 
           {/* <div className="mt-24">
-  <PixelCardCarousel items={pixelCards} />
-</div> */}
+            <PixelCardCarousel items={pixelCards} />
+          </div> */}
+
           {/* Sentinel para iniciar el fade ANTES de que se vea Projects */}
           <div id="about-exit" aria-hidden className="h-[35vh] w-full" />
         </div>

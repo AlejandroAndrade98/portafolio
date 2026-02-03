@@ -19,7 +19,7 @@
       {
         "type": "video",
         "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideoPoster.webp",
+        "poster": "/projects/spellbook/rohanVideo1.webp",
         "alt": "Video"
       }
     ],
@@ -92,7 +92,7 @@
       {
         "type": "video",
         "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideoPoster.webp",
+        "poster": "/projects/spellbook/rohanVideo1.webp",
         "alt": "Video"
       }
     ],"example3": [
@@ -114,30 +114,7 @@
       {
         "type": "video",
         "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideoPoster.webp",
-        "alt": "Video"
-      }
-    ],
-    "example4": [
-      {
-        "type": "image",
-        "src": "/projects/spellbook/rohanImage1.webp",
-        "alt": "Home - Hero y navegación"
-      },
-      {
-        "type": "image",
-        "src": "/projects/spellbook/rohanImage2.webp",
-        "alt": "Listado - Colección y filtros"
-      },
-      {
-        "type": "image",
-        "src": "/projects/spellbook/rohanImage3.webp",
-        "alt": "Detalle - Página de producto"
-      },
-      {
-        "type": "video",
-        "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideoPoster.webp",
+        "poster": "/projects/spellbook/rohanVideo1.webp",
         "alt": "Video"
       }
     ]

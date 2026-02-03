@@ -4,6 +4,9 @@ import { useEffect, useRef } from "react";
 import type * as React from "react";
 import "./PixelCard.css";
 
+/* =======================
+   Pixel class (sin cambios)
+======================= */
 class Pixel {
   width: number;
   height: number;
@@ -39,12 +42,12 @@ class Pixel {
     this.x = x;
     this.y = y;
     this.color = color;
-    this.speed = this.getRandomValue(0.1, 0.9) * speed;
+    this.speed = speed;
     this.size = 0;
     this.sizeStep = Math.random() * 0.4;
     this.minSize = 0.5;
     this.maxSizeInteger = 2;
-    this.maxSize = this.getRandomValue(this.minSize, this.maxSizeInteger);
+    this.maxSize = Math.random() * (this.maxSizeInteger - this.minSize) + this.minSize;
     this.delay = delay;
     this.counter = 0;
     this.counterStep = Math.random() * 4 + (this.width + this.height) * 0.01;
@@ -53,19 +56,10 @@ class Pixel {
     this.isShimmer = false;
   }
 
-  getRandomValue(min: number, max: number) {
-    return Math.random() * (max - min) + min;
-  }
-
   draw() {
-    const centerOffset = this.maxSizeInteger * 0.5 - this.size * 0.5;
+    const offset = this.maxSizeInteger * 0.5 - this.size * 0.5;
     this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(
-      this.x + centerOffset,
-      this.y + centerOffset,
-      this.size,
-      this.size
-    );
+    this.ctx.fillRect(this.x + offset, this.y + offset, this.size, this.size);
   }
 
   appear() {
@@ -74,14 +68,8 @@ class Pixel {
       this.counter += this.counterStep;
       return;
     }
-    if (this.size >= this.maxSize) {
-      this.isShimmer = true;
-    }
-    if (this.isShimmer) {
-      this.shimmer();
-    } else {
-      this.size += this.sizeStep;
-    }
+    if (this.size >= this.maxSize) this.isShimmer = true;
+    this.isShimmer ? this.shimmer() : (this.size += this.sizeStep);
     this.draw();
   }
 
@@ -91,236 +79,145 @@ class Pixel {
     if (this.size <= 0) {
       this.isIdle = true;
       return;
-    } else {
-      this.size -= 0.1;
     }
+    this.size -= 0.1;
     this.draw();
   }
 
   shimmer() {
-    if (this.size >= this.maxSize) {
-      this.isReverse = true;
-    } else if (this.size <= this.minSize) {
-      this.isReverse = false;
-    }
-    if (this.isReverse) {
-      this.size -= this.speed;
-    } else {
-      this.size += this.speed;
-    }
+    if (this.size >= this.maxSize) this.isReverse = true;
+    if (this.size <= this.minSize) this.isReverse = false;
+    this.size += this.isReverse ? -this.speed : this.speed;
   }
 }
 
-function getEffectiveSpeed(value: number, reducedMotion: boolean) {
-  const min = 0;
-  const max = 100;
-  const throttle = 0.001;
-
-  if (value <= min || reducedMotion) return min;
-  if (value >= max) return max * throttle;
-  return value * throttle;
-}
-
-const VARIANTS = {
-  default: {
-    activeColor: null,
-    gap: 5,
-    speed: 35,
-    colors: "#f8fafc,#f1f5f9,#cbd5e1",
-    noFocus: false,
-  },
-  blue: {
-    activeColor: "#e0f2fe",
-    gap: 10,
-    speed: 25,
-    colors: "#e0f2fe,#7dd3fc,#0ea5e9",
-    noFocus: false,
-  },
-  yellow: {
-    activeColor: "#fef08a",
-    gap: 3,
-    speed: 20,
-    colors: "#fef08a,#fde047,#eab308",
-    noFocus: false,
-  },
-  pink: {
-    activeColor: "#fecdd3",
-    gap: 6,
-    speed: 80,
-    colors: "#fecdd3,#fda4af,#e11d48",
-    noFocus: true,
-  },
-};
-
-interface PixelCardProps {
-  variant?: "default" | "blue" | "yellow" | "pink";
-  gap?: number;
-  speed?: number;
-  colors?: string;
-  noFocus?: boolean;
-  className?: string;
-  active?: boolean; 
-  children: React.ReactNode;
-}
-
-interface VariantConfig {
-  activeColor: string | null;
-  gap: number;
-  speed: number;
-  colors: string;
-  noFocus: boolean;
-}
-
+/* =======================
+   Component
+======================= */
 export default function PixelCard({
   variant = "default",
-  gap,
-  speed,
-  colors,
-  noFocus,
   className = "",
-  active = false, 
+  active = false,
   children,
-}: PixelCardProps): React.ReactElement {
+}: {
+  variant?: "default" | "blue" | "yellow" | "pink";
+  className?: string;
+  active?: boolean;
+  children: React.ReactNode;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pixelsRef = useRef<Pixel[]>([]);
-  const animationRef = useRef<number | null>(null);
-  const timePreviousRef = useRef<number>(performance.now());
-  const reducedMotion = useRef(false);
 
-  const variantCfg: VariantConfig = (VARIANTS as any)[variant] || VARIANTS.default;
-  const finalGap = gap ?? variantCfg.gap;
-  const finalSpeed = speed ?? variantCfg.speed;
-  const finalColors = colors ?? variantCfg.colors;
-  const finalNoFocus = noFocus ?? variantCfg.noFocus;
+  const rafRef = useRef<number | null>(null);
+  const runningRef = useRef(false);
+  const visibleRef = useRef(true);
+  const modeRef = useRef<"appear" | "disappear">("disappear");
+  const lastTimeRef = useRef(performance.now());
 
-  const initPixels = () => {
-    if (!containerRef.current || !canvasRef.current) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const width = Math.max(1, Math.floor(rect.width));
-    const height = Math.max(1, Math.floor(rect.height));
-    const ctx = canvasRef.current.getContext("2d");
-    if (!ctx) return;
-
-    canvasRef.current.width = width;
-    canvasRef.current.height = height;
-
-    const colorsArray = finalColors.split(",");
-    const pxs: Pixel[] = [];
-
-    for (let x = 0; x < width; x += parseInt(finalGap.toString(), 10)) {
-      for (let y = 0; y < height; y += parseInt(finalGap.toString(), 10)) {
-        const color = colorsArray[Math.floor(Math.random() * colorsArray.length)];
-        const dx = x - width / 2;
-        const dy = y - height / 2;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const delay = reducedMotion.current ? 0 : distance;
-
-        pxs.push(
-          new Pixel(
-            canvasRef.current,
-            ctx,
-            x,
-            y,
-            color,
-            getEffectiveSpeed(finalSpeed, reducedMotion.current),
-            delay
-          )
-        );
-      }
-    }
-    pixelsRef.current = pxs;
+  /* ---------- helpers ---------- */
+  const stop = () => {
+    runningRef.current = false;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = null;
   };
 
-  const doAnimate = (fnName: keyof Pixel) => {
-    animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
+  const start = (mode: "appear" | "disappear") => {
+    modeRef.current = mode;
+    if (!visibleRef.current || runningRef.current) return;
+    runningRef.current = true;
+    lastTimeRef.current = performance.now();
+    rafRef.current = requestAnimationFrame(loop);
+  };
 
-    const timeNow = performance.now();
-    const timePassed = timeNow - timePreviousRef.current;
-    const timeInterval = 1000 / 60;
+  const loop = () => {
+    if (!runningRef.current || !visibleRef.current) {
+      stop();
+      return;
+    }
 
-    if (timePassed < timeInterval) return;
-    timePreviousRef.current = timeNow - (timePassed % timeInterval);
+    const now = performance.now();
+    if (now - lastTimeRef.current < 1000 / 60) {
+      rafRef.current = requestAnimationFrame(loop);
+      return;
+    }
+    lastTimeRef.current = now;
 
     const ctx = canvasRef.current?.getContext("2d");
-    if (!ctx || !canvasRef.current) return;
+    if (!ctx || !canvasRef.current) {
+      stop();
+      return;
+    }
 
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
     let allIdle = true;
-    for (let i = 0; i < pixelsRef.current.length; i++) {
-      const pixel = pixelsRef.current[i];
-      // @ts-ignore
-      pixel[fnName]();
-      if (!pixel.isIdle) allIdle = false;
+    const fn = modeRef.current;
+
+    for (const p of pixelsRef.current) {
+      
+      p[fn]();
+      if (!p.isIdle) allIdle = false;
     }
 
-    if (allIdle && animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-      animationRef.current = null;
+    if (allIdle) {
+      stop();
+      return;
     }
+
+    rafRef.current = requestAnimationFrame(loop);
   };
 
-  const handleAnimation = (name: keyof Pixel) => {
-    if (animationRef.current !== null) cancelAnimationFrame(animationRef.current);
-    animationRef.current = requestAnimationFrame(() => doAnimate(name));
-  };
-
-  const onMouseEnter = () => handleAnimation("appear");
-  const onMouseLeave = () => {
-    if (active) return;         // ✅ si está forzado, no se apaga
-    handleAnimation("disappear");
-  };
-
-  const onFocus: React.FocusEventHandler<HTMLDivElement> = (e) => {
-    if (active) return;   
-    if (e.currentTarget.contains(e.relatedTarget)) return;
-    handleAnimation("appear");
-  };
-
-  const onBlur: React.FocusEventHandler<HTMLDivElement> = (e) => {
-    if (active) return
-    if (e.currentTarget.contains(e.relatedTarget)) return;
-    handleAnimation("disappear");
-  };
-
+  /* ---------- init pixels ---------- */
   useEffect(() => {
-    // ✅ fuerza animación cuando active cambia
-    if (active) handleAnimation("appear");
-    else handleAnimation("disappear");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!containerRef.current || !canvasRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return;
+
+    canvasRef.current.width = rect.width;
+    canvasRef.current.height = rect.height;
+
+    const colors = ["#f8fafc", "#cbd5e1"];
+    const px: Pixel[] = [];
+
+    for (let x = 0; x < rect.width; x += 6) {
+      for (let y = 0; y < rect.height; y += 6) {
+        px.push(new Pixel(canvasRef.current, ctx, x, y, colors[Math.random() * 2 | 0], 0.25, Math.hypot(x, y)));
+      }
+    }
+    pixelsRef.current = px;
+  }, []);
+
+  /* ---------- visibility ---------- */
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      ([e]) => {
+        visibleRef.current = !!e?.isIntersecting;
+        if (!visibleRef.current) stop();
+        else if (active) start("appear");
+      },
+      { threshold: 0.01 }
+    );
+    if (containerRef.current) io.observe(containerRef.current);
+    return () => io.disconnect();
   }, [active]);
 
+  /* ---------- active sync ---------- */
   useEffect(() => {
-    reducedMotion.current =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    initPixels();
-
-    const observer = new ResizeObserver(() => initPixels());
-    if (containerRef.current) observer.observe(containerRef.current);
-
-    return () => {
-      observer.disconnect();
-      if (animationRef.current !== null) cancelAnimationFrame(animationRef.current);
-    };
+    active ? start("appear") : start("disappear");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [finalGap, finalSpeed, finalColors, finalNoFocus]);
+  }, [active]);
 
   return (
     <div
       ref={containerRef}
       className={`pixel-card ${className}`}
-      data-active={active ? "true" : "false"}   // ✅ NUEVO
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocus={finalNoFocus ? undefined : onFocus}
-      onBlur={finalNoFocus ? undefined : onBlur}
-      tabIndex={finalNoFocus ? -1 : 0}
+      data-active={active}
+      onMouseEnter={() => start("appear")}
+      onMouseLeave={() => !active && start("disappear")}
     >
-      <canvas className="pixel-canvas" ref={canvasRef} />
+      <canvas ref={canvasRef} className="pixel-canvas" />
       {children}
     </div>
   );

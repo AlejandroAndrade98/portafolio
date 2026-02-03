@@ -43,3 +43,5 @@
 .pixel-card[data-active="true"]::before {
   opacity: 1;
 }
+
+.pc-wave { animation: none !important; opacity: 0 !important; }

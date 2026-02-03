@@ -50,7 +50,6 @@ export default function LightPillar({
   const [isRunning, setIsRunning] = React.useState(true);
   const [isVisible, setIsVisible] = React.useState(false);
 
-  // ✅ tab visible / hidden
   React.useEffect(() => {
     const onVis = () => setIsRunning(!document.hidden);
     document.addEventListener("visibilitychange", onVis);
@@ -58,14 +57,12 @@ export default function LightPillar({
     return () => document.removeEventListener("visibilitychange", onVis);
   }, []);
 
-  // ✅ soporte WebGL
   React.useEffect(() => {
     const canvas = document.createElement("canvas");
     const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
     if (!gl) setWebGLSupported(false);
   }, []);
 
-  // ✅ IntersectionObserver
   React.useEffect(() => {
     if (!containerRef.current) return;
 
@@ -82,15 +79,13 @@ export default function LightPillar({
     };
   }, []);
 
-  // ✅ Init WebGL (UNA sola vez, cuando entra al viewport)
+  // ✅ Init WebGL SOLO una vez (cuando entra al viewport)
   React.useEffect(() => {
     if (!containerRef.current || !webGLSupported || !isVisible) return;
 
-    // ya inicializado
     if (rendererRef.current || materialRef.current || sceneRef.current) return;
 
     const container = containerRef.current;
-
     const width = container.clientWidth;
     const height = container.clientHeight;
 
@@ -270,7 +265,7 @@ export default function LightPillar({
 
     scene.add(new THREE.Mesh(geometry, material));
 
-    // ✅ mouse
+    // mouse (si interactive)
     let mouseMoveTimeout: number | null = null;
     const handleMouseMove = (event: MouseEvent) => {
       if (!interactive) return;
@@ -286,7 +281,7 @@ export default function LightPillar({
 
     if (interactive) container.addEventListener("mousemove", handleMouseMove, { passive: true });
 
-    // ✅ resize
+    // resize
     let resizeTimeout: number | null = null;
     const handleResize = () => {
       if (resizeTimeout) clearTimeout(resizeTimeout);
@@ -325,9 +320,9 @@ export default function LightPillar({
       geometryRef.current = null;
       rafRef.current = null;
     };
-  }, [webGLSupported, isVisible, interactive, topColor, bottomColor, intensity, glowAmount, pillarWidth, pillarHeight, noiseIntensity, pillarRotation]);
+  }, [webGLSupported, isVisible]);
 
-  // ✅ Update uniforms cuando cambian props (sin recrear WebGL)
+  // ✅ Actualiza uniforms sin recrear WebGL
   React.useEffect(() => {
     if (!materialRef.current) return;
 
@@ -349,7 +344,7 @@ export default function LightPillar({
     u.uPillarRotation.value = pillarRotation;
   }, [topColor, bottomColor, intensity, interactive, glowAmount, pillarWidth, pillarHeight, noiseIntensity, pillarRotation]);
 
-  // ✅ Loop separado: prende / apaga con isVisible + isRunning
+  // Loop (igual, con pausa por visibilidad)
   React.useEffect(() => {
     if (!isVisible || !isRunning) {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
