@@ -3,7 +3,8 @@
 import * as React from "react";
 import Image from "next/image";
 
-import { BubbleBackground } from "@/components/ui/shadcn-io/bubble-background";
+// import { BubbleBackground } from "@/components/ui/shadcn-io/bubble-background";
+import VantaNetBg from "../animate-ui/VantaNetBg";
 
 type IntroSectionProps = {
   hero: typeof import("@/content/home/hero.json");
@@ -24,10 +25,17 @@ export default function IntroSection({ hero }: IntroSectionProps) {
             className="fixed inset-0 h-screen scale-125 overflow-hidden"
           >
             <div className="relative block w-full h-full">
-              <BubbleBackground
-                id="hero-bubbles"
-                interactive={false}
+              <VantaNetBg
                 className="absolute inset-0"
+                // performance-friendly defaults:
+                mouseControls={false}
+                touchControls={false}
+                gyroControls={false}
+                color={0x38bdf8}
+                backgroundColor={0x000000}
+                points={9}
+                maxDistance={22}
+                spacing={18}
               />
               <div className="absolute inset-0 bg-black/55" />
             </div>
