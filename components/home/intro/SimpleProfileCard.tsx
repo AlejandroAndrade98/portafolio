@@ -74,22 +74,24 @@ export function SimpleProfileCard({ name, handle, title, avatarSrc, status = "On
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/5">
-          <div className="text-center">
-            <p className="text-2xl font-bold text-white">5+</p>
-            <p className="text-xs text-slate-500">Años exp.</p>
-          </div>
-          <div className="w-px h-8 bg-white/10" />
-          <div className="text-center">
-            <p className="text-2xl font-bold text-white">50+</p>
-            <p className="text-xs text-slate-500">Proyectos</p>
-          </div>
-          <div className="w-px h-8 bg-white/10" />
-          <div className="text-center">
-            <p className="text-2xl font-bold text-white">100%</p>
-            <p className="text-xs text-slate-500">Pasión</p>
-          </div>
-        </div>
+        {/* 🚩 Stats mini – ocultos en mobile */}
+<div className="hidden sm:flex items-center justify-between mt-8 pt-6 border-t border-white/5">
+  <div className="text-center">
+    <p className="text-2xl font-bold text-white">5+</p>
+    <p className="text-xs text-slate-500">Años exp.</p>
+  </div>
+  <div className="w-px h-8 bg-white/10" />
+  <div className="text-center">
+    <p className="text-2xl font-bold text-white">50+</p>
+    <p className="text-xs text-slate-500">Proyectos</p>
+  </div>
+  <div className="w-px h-8 bg-white/10" />
+  <div className="text-center">
+    <p className="text-2xl font-bold text-white">100%</p>
+    <p className="text-xs text-slate-500">Pasión</p>
+  </div>
+</div>
+
       </div>
     </div>
   );

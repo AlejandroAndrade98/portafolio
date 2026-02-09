@@ -11,14 +11,19 @@ type IntroSectionProps = {
 
 export default function IntroSection({ hero }: IntroSectionProps) {
   return (
-    <section id="intro" className="relative h-[200vh]">
-      <div id="ambient-bg" className="fixed inset-0 z-0 opacity-0 pointer-events-none w-screen" />
+    <section id="intro" className="relative h-[200vh] overflow-x-hidden">
+      <div
+        id="ambient-bg"
+        className="fixed inset-0 z-0 opacity-0 pointer-events-none w-screen"
+      />
 
       <div id="logo-mask" className="fixed inset-0 z-10 w-screen h-[100svh]">
         <section className="h-[100svh]">
-          <div id="hero-key" className="fixed inset-0 w-screen h-[100svh] overflow-hidden">
+          <div
+            id="hero-key"
+            className="fixed inset-0 w-screen h-[100svh] overflow-hidden"
+          >
             <div className="relative block w-full h-full bg-[#0a0a0f] overflow-hidden">
-              {/* Background Lovable */}
               <div className={styles.backgroundContainer} aria-hidden="true">
                 <div className={styles.gridPattern} />
                 <div className={styles.centerGlow} />
@@ -35,26 +40,80 @@ export default function IntroSection({ hero }: IntroSectionProps) {
         </section>
       </div>
 
-      {/* Overlay (mantiene IDs para GSAP) */}
-      <div id="hero-overlay" className="fixed inset-0 z-20 pointer-events-auto w-screen">
-        <div className="mx-auto w-full max-w-6xl h-[100svh] px-4 sm:px-6 lg:px-12 flex items-start lg:items-center pt-24 pb-10 lg:pt-0 lg:pb-0">
+      <div
+        id="hero-overlay"
+        className="fixed inset-0 z-20 pointer-events-auto w-screen overflow-x-hidden"
+      >
+        <div
+          className="
+            mx-auto w-full max-w-6xl h-[100svh]
+            px-4 sm:px-6 lg:px-12
+            flex items-start lg:items-center
+            pt-24 pb-10 lg:pt-0 lg:pb-0
+
+            /* ✅ phones grandes (390–639): centra y ajusta padding */
+            [@media(min-width:390px)_and_(max-width:639px)]:items-center
+            [@media(min-width:390px)_and_(max-width:639px)]:pt-16
+            [@media(min-width:390px)_and_(max-width:639px)]:pb-16
+          "
+        >
           <div className="grid w-full grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-            {/* Izquierda: Card (✅ fix: ancho mobile) */}
             <div className={styles.animateCard}>
-              <div className="mx-auto w-full max-w-[340px] sm:max-w-md lg:max-w-none">
+              <div
+                className="
+                  mx-auto w-full max-w-[340px]
+                  sm:max-w-md lg:max-w-none
+                  origin-top scale-[0.92] sm:scale-100 lg:scale-100
+
+                  /* ✅ phones grandes (390–639): más ancho y sin scale */
+                  [@media(min-width:390px)_and_(max-width:639px)]:max-w-[380px]
+                  [@media(min-width:390px)_and_(max-width:639px)]:scale-100
+                "
+              >
                 <SimpleProfileCard
                   name={hero.profileCard?.name ?? "Alejandro Andrade"}
                   handle={hero.profileCard?.handle ?? "alejandroandrade"}
                   title={hero.profileCard?.title ?? "Software Developer"}
                   avatarSrc={hero.profileCard?.avatarUrl ?? "/avatar.jpg"}
                 />
+
+                <div className="mt-4 lg:hidden">
+                  <div className="grid grid-cols-2 gap-3">
+                    <a
+                      href="mailto:contacto@ejemplo.com"
+                      className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
+                                 bg-gradient-to-r from-blue-500 to-purple-600
+                                 transition-transform duration-200 active:scale-[0.98]"
+                    >
+                      Contáctame
+                    </a>
+
+                    <a
+                      href="/portfolio"
+                      className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
+                                 border border-white/15 bg-white/5
+                                 transition-transform duration-200 active:scale-[0.98]"
+                    >
+                      Ver Portfolio
+                    </a>
+                  </div>
+
+                  <div className="mt-3 flex justify-center">
+                    <SocialLinks
+                      github="https://github.com/usuario"
+                      linkedin="https://linkedin.com/in/usuario"
+                      twitter="https://twitter.com/usuario"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Derecha: Texto */}
-            <div className="min-w-0 flex flex-col gap-6 lg:gap-8">
+            <div className="hidden lg:flex min-w-0 flex-col gap-6 lg:gap-8">
               <div className={styles.animateText}>
-                <p className="text-blue-400 font-medium mb-3 tracking-wide">👋 Hola, soy</p>
+                <p className="text-blue-400 font-medium mb-3 tracking-wide">
+                  👋 Hola, soy
+                </p>
 
                 <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[0.95]">
                   Alejandro
@@ -65,7 +124,8 @@ export default function IntroSection({ hero }: IntroSectionProps) {
 
                 <p className="mt-5 text-base sm:text-xl text-slate-300/80 max-w-lg leading-relaxed">
                   Desarrollador de software. Construyo productos con foco en{" "}
-                  <span className="text-white font-medium">performance</span>, UX y detalle visual.
+                  <span className="text-white font-medium">performance</span>, UX
+                  y detalle visual.
                 </p>
               </div>
 
@@ -86,18 +146,17 @@ export default function IntroSection({ hero }: IntroSectionProps) {
               </div>
 
               <div className={styles.animateSocial}>
-            <SocialLinks
-              github="https://github.com/usuario"
-              linkedin="https://linkedin.com/in/usuario"
-              twitter="https://twitter.com/usuario"
-            />
+                <SocialLinks
+                  github="https://github.com/usuario"
+                  linkedin="https://linkedin.com/in/usuario"
+                  twitter="https://twitter.com/usuario"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Header fijo (igual) */}
       <div className="fixed inset-0 z-30 flex flex-col items-center justify-between h-[100svh] w-screen pointer-events-none px-4 py-6 sm:px-10 sm:py-10 lg:px-20 lg:py-16">
         <header className="flex justify-between w-full pointer-events-auto">
           <Image
