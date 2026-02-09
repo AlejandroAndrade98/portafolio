@@ -3,7 +3,7 @@
 import Image from "next/image";
 import styles from "./intro/IntroSection.module.css";
 import { SimpleProfileCard } from "./intro/SimpleProfileCard";
-import { SocialLinks } from "./intro/SocialLinks";
+import SocialLinks from "./intro/SocialLinks";
 
 type IntroSectionProps = {
   hero: typeof import("@/content/home/hero.json");
@@ -86,7 +86,11 @@ export default function IntroSection({ hero }: IntroSectionProps) {
               </div>
 
               <div className={styles.animateSocial}>
-                <SocialLinks />
+            <SocialLinks
+              github="https://github.com/usuario"
+              linkedin="https://linkedin.com/in/usuario"
+              twitter="https://twitter.com/usuario"
+            />
               </div>
             </div>
           </div>

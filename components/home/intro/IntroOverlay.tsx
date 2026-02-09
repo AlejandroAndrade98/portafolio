@@ -1,6 +1,8 @@
 import styles from "./IntroOverlay.module.css";
-import SimpleProfileCard from "./SimpleProfileCard";
+import { SimpleProfileCard } from "./SimpleProfileCard";
 import SocialLinks from "./SocialLinks";
+
+
 
 type Props = {
   hero: typeof import("@/content/home/hero.json");
@@ -24,7 +26,7 @@ export default function IntroOverlay({ hero }: Props) {
             name={fullName}
             title={title}
             handle={handle}
-            avatarUrl={hero?.profileCard?.avatarUrl ?? "/avatar.jpg"}
+            avatarSrc={hero?.profileCard?.avatarUrl ?? "/avatar.jpg"}
           />
         </div>
 

@@ -1,12 +1,18 @@
 import { Github, Linkedin, Twitter } from "lucide-react";
 
-const socialLinks = [
-  { name: "GitHub", href: "https://github.com/AlejandroAndrade98", icon: Github },
-  { name: "LinkedIn", href: "https://linkedin.com", icon: Linkedin }, // cámbialo
-  { name: "Twitter", href: "https://twitter.com", icon: Twitter }, // cámbialo
-];
+type SocialLinksProps = {
+  github: string;
+  linkedin: string;
+  twitter: string;
+};
 
-export function SocialLinks() {
+export default function SocialLinks({ github, linkedin, twitter }: SocialLinksProps) {
+  const socialLinks = [
+    { name: "GitHub", href: github, icon: Github },
+    { name: "LinkedIn", href: linkedin, icon: Linkedin },
+    { name: "Twitter", href: twitter, icon: Twitter },
+  ];
+
   return (
     <div className="flex gap-4">
       {socialLinks.map((link) => (
