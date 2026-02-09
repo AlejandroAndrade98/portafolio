@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./intro/IntroSection.module.css";
 import { SimpleProfileCard } from "./intro/SimpleProfileCard";
 import SocialLinks from "./intro/SocialLinks";
+import HeaderMenu from "./intro/HeaderMenu";
 
 type IntroSectionProps = {
   hero: typeof import("@/content/home/hero.json");
@@ -14,14 +15,14 @@ export default function IntroSection({ hero }: IntroSectionProps) {
     <section id="intro" className="relative h-[200vh] overflow-x-hidden">
       <div
         id="ambient-bg"
-        className="fixed inset-0 z-0 opacity-0 pointer-events-none w-screen"
+        className="fixed inset-0 z-0 opacity-0 pointer-events-none"
       />
 
-      <div id="logo-mask" className="fixed inset-0 z-10 w-screen h-[100svh]">
+      <div id="logo-mask" className="fixed inset-0 z-10 h-[100svh]">
         <section className="h-[100svh]">
           <div
             id="hero-key"
-            className="fixed inset-0 w-screen h-[100svh] overflow-hidden"
+            className="fixed inset-0 h-[100svh] overflow-hidden"
           >
             <div className="relative block w-full h-full bg-[#0a0a0f] overflow-hidden">
               <div className={styles.backgroundContainer} aria-hidden="true">
@@ -42,7 +43,7 @@ export default function IntroSection({ hero }: IntroSectionProps) {
 
       <div
         id="hero-overlay"
-        className="fixed inset-0 z-20 pointer-events-auto w-screen overflow-x-hidden"
+        className="fixed inset-0 z-20 pointer-events-auto overflow-x-hidden"
       >
         <div
           className="
@@ -157,20 +158,10 @@ export default function IntroSection({ hero }: IntroSectionProps) {
         </div>
       </div>
 
-      <div className="fixed inset-0 z-30 flex flex-col items-center justify-between h-[100svh] w-screen pointer-events-none px-4 py-6 sm:px-10 sm:py-10 lg:px-20 lg:py-16">
-        <header className="flex justify-between w-full pointer-events-auto">
-          <Image
-            src={hero.header.logo.src}
-            alt={hero.header.logo.alt}
-            width={hero.header.logo.width}
-            height={hero.header.logo.height}
-            className="w-40 sm:w-48 h-auto"
-            style={{ height: "auto" }}
-            priority
-          />
-          <p>{hero.header.rightText}</p>
-        </header>
-      </div>
+      
+
+
+     
     </section>
   );
 }

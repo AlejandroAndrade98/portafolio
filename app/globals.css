@@ -516,3 +516,19 @@ p.scroll-reveal .scroll-reveal-text {
 .mb-section{
   --mb-glow-color: 99, 102, 241; /* fallback por defecto */
 }
+
+/* --- FIX: evita “corrimiento” por overflow horizontal (mobile) --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* mejor que hidden si el navegador lo soporta */
+@supports (overflow: clip) {
+  html { overflow-x: clip; }
+  body { overflow-x: clip; }
+}

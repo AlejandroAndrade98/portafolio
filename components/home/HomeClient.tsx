@@ -15,6 +15,8 @@ import AboutSection from "@/components/home/AboutSection";
 import StackSection from "@/components/home/StackSection";
 import ProjectsSection from "@/components/home/ProjectsSection";
 
+import HomeHeader from "@/components/home/HomeHeader";
+
 import type { ComponentProps } from "react";
 
 export default function HomeClient() {
@@ -29,7 +31,10 @@ export default function HomeClient() {
 
   const items = projectsShowcase.items as unknown as ShowcaseItem[];
 
-  return (
+return (
+  <>
+    <HomeHeader hero={hero} />
+
     <main ref={mainRef} className="relative">
       <div
         id="fade-layer"
@@ -48,5 +53,6 @@ export default function HomeClient() {
 
       <StackSection title={stack.title} subtitle={stack.subtitle} />
     </main>
-  );
+  </>
+);
 }
