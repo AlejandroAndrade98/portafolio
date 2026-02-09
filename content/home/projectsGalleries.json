@@ -47,7 +47,7 @@
       {
         "type": "video",
         "src": "/projects/delirios/deliriosVideo.mp4",
-        "poster": "/projects/embipos/04-scroll-poster.webp",
+        "poster": "/projects/delirios/deliriosVideo.mp4",
         "alt": "Demo - scroll por la página"
       }
     ],
