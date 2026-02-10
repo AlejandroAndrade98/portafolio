@@ -13,9 +13,9 @@ type Props = {
 type SectionKey = "intro" | "about" | "projects" | "stack";
 
 export default function HeaderMenu({
-  mailto = "mailto:contacto@ejemplo.com",
-  github = "https://github.com/usuario",
-  linkedin = "https://linkedin.com/in/usuario",
+  mailto = "mailto:alejandro21112@hotmail.com",
+  github = "https://github.com/AlejandroAndrade98",
+  linkedin = "https://www.linkedin.com/in/alejandroandrade-tech",
   twitter = "https://twitter.com/usuario",
 }: Props) {
   const [open, setOpen] = useState(false);

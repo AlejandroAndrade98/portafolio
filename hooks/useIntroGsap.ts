@@ -6,7 +6,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function useIntroGsap(mainRef: RefObject<HTMLElement | null>, isMobile: boolean) {
+export function useIntroGsap(
+  mainRef: RefObject<HTMLElement | null>,
+  isMobile: boolean
+) {
   useLayoutEffect(() => {
     const root = mainRef.current;
     if (!root) return;
@@ -14,7 +17,9 @@ export function useIntroGsap(mainRef: RefObject<HTMLElement | null>, isMobile: b
     const isCoarse =
       ScrollTrigger.isTouch || window.matchMedia("(pointer: coarse)").matches;
 
-    if (!isCoarse) ScrollTrigger.normalizeScroll(true);
+    // ✅ Solo desktop + mouse
+    if (!isCoarse && !isMobile) ScrollTrigger.normalizeScroll(true);
+    ScrollTrigger.refresh();
 
     const ctx = gsap.context(() => {
       const q = gsap.utils.selector(root);
@@ -41,52 +46,71 @@ export function useIntroGsap(mainRef: RefObject<HTMLElement | null>, isMobile: b
 
       if (aboutBg) gsap.set(aboutBg, { autoAlpha: 0 });
 
-      // ===== Intro timeline (scrub) =====
-      if (intro && fadeLayer && heroKey && heroOverlay && ambientBg && logoMask && aboutBg) {
-        const tl = gsap.timeline({
-          defaults: { ease: "power2.out" },
-          scrollTrigger: {
-            trigger: intro,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              // al subir, evita que quede el negro pegado
-              if (self.direction === -1) gsap.set(fadeLayer, { autoAlpha: 0 });
+      // =========================================================
+      // 🚩 MOBILE: el loader lo maneja MobileIntroMask (CSS/SVG).
+      //     Aquí NO hacemos mask GSAP y NO bloqueamos scroll.
+      // =========================================================
+      if (isMobile) {
+        if (aboutBg && about) {
+          gsap.to(aboutBg, {
+            autoAlpha: 1,
+            scrollTrigger: {
+              trigger: about,
+              start: "top 82%",
+              end: "top 62%",
+              scrub: 1,
+              invalidateOnRefresh: true,
             },
-          },
-        });
+          });
+        }
+      } else {
+        // =========================================================
+        // ✅ DESKTOP: tu timeline actual (SIN CAMBIOS)
+        // =========================================================
+        if (intro && fadeLayer && heroKey && heroOverlay && ambientBg && logoMask && aboutBg) {
+          const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+            scrollTrigger: {
+              trigger: intro,
+              start: "top top",
+              end: "bottom top",
+              scrub: 1,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                if (self.direction === -1) gsap.set(fadeLayer, { autoAlpha: 0 });
+              },
+            },
+          });
 
-        tl.to(heroKey, { scale: 1, duration: 1 }, 0);
-        tl.to(heroOverlay, { autoAlpha: 0, y: -10, filter: "blur(10px)", duration: 1 }, "<");
-        tl.to(ambientBg, { autoAlpha: 1, duration: 0.6 }, 0.25);
+          tl.to(heroKey, { scale: 1, duration: 1 }, 0);
+          tl.to(heroOverlay, { autoAlpha: 0, y: -10, filter: "blur(10px)", duration: 1 }, "<");
+          tl.to(ambientBg, { autoAlpha: 1, duration: 0.6 }, 0.25);
 
-        tl.to(
-          logoMask,
-          {
-            maskSize: "clamp(60vh, 20%, 30vh)",
-            webkitMaskSize: "clamp(60vh, 20%, 30vh)",
-            duration: 0.6,
-          },
-          0.3
-        );
+          tl.to(
+            logoMask,
+            {
+              maskSize: "clamp(60vh, 20%, 30vh)",
+              webkitMaskSize: "clamp(60vh, 20%, 30vh)",
+              duration: 0.6,
+            },
+            0.3
+          );
 
-        tl.to(heroKey, { opacity: 0, duration: 0.4 }, 0.5);
+          tl.to(heroKey, { opacity: 0, duration: 0.4 }, 0.5);
 
-        // negro solo para el swap máscara -> about (como ya lo tenías)
-        tl.to(fadeLayer, { autoAlpha: 1, duration: 0.22 }, 1.02);
+          tl.to(fadeLayer, { autoAlpha: 1, duration: 0.22 }, 1.02);
 
-        tl.to(logoMask, { autoAlpha: 0, y: -40, filter: "blur(8px)", duration: 0.32 }, 1.05);
-        tl.to(ambientBg, { autoAlpha: 0, y: -20, filter: "blur(8px)", duration: 0.32 }, 1.05);
+          tl.to(logoMask, { autoAlpha: 0, y: -40, filter: "blur(8px)", duration: 0.32 }, 1.05);
+          tl.to(ambientBg, { autoAlpha: 0, y: -20, filter: "blur(8px)", duration: 0.32 }, 1.05);
 
-        tl.to(aboutBg, { autoAlpha: 1, duration: 0.55 }, 1.1);
+          tl.to(aboutBg, { autoAlpha: 1, duration: 0.55 }, 1.1);
 
-        tl.set([logoMask, ambientBg, heroOverlay], { y: 0, filter: "blur(0px)" }, 1.32);
-        tl.to(fadeLayer, { autoAlpha: 0, duration: 0.32 }, 1.26);
+          tl.set([logoMask, ambientBg, heroOverlay], { y: 0, filter: "blur(0px)" }, 1.32);
+          tl.to(fadeLayer, { autoAlpha: 0, duration: 0.32 }, 1.26);
+        }
       }
 
-      // ===== About content reveal =====
+      // ===== About content reveal (sirve en ambos) =====
       if (about && aboutContent) {
         gsap.fromTo(
           aboutContent,
@@ -109,7 +133,7 @@ export function useIntroGsap(mainRef: RefObject<HTMLElement | null>, isMobile: b
 
     return () => {
       ctx.revert();
-      if (!isCoarse) ScrollTrigger.normalizeScroll(false);
+      if (!isCoarse && !isMobile) ScrollTrigger.normalizeScroll(false);
     };
-  }, [isMobile]);
+  }, [isMobile, mainRef]);
 }

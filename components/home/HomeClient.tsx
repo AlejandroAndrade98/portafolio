@@ -42,7 +42,7 @@ return (
         style={{ opacity: 0 }}
       />
 
-      <IntroSection hero={hero} />
+      <IntroSection hero={hero} isMobile={isMobile} />
       <AboutSection about={about} pixelCards={aboutPixelCards} />
 
       <ProjectsSection
