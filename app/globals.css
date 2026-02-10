@@ -195,12 +195,7 @@ body {
 
 
 /* SOLO títulos grandes (como en tu About/Projects title) */
-h1.scroll-reveal .scroll-reveal-text,
-h2.scroll-reveal .scroll-reveal-text {
-  font-size: clamp(1.6rem, 4vw, 3rem);
-  line-height: 1.15;
-  font-weight: 600;
-}
+
 
 /* Párrafos (y cualquier otro tag): que NO fuerce tamaño */
 p.scroll-reveal .scroll-reveal-text {

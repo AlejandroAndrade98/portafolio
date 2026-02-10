@@ -4,6 +4,7 @@ import * as React from "react";
 import { ExternalLink, Github } from "lucide-react";
 import ExpandableGallery, { type GalleryMedia } from "@/components/ui/ExpandableGallery";
 import galleriesData from "@/content/home/projectsGalleries.json";
+import ScrollReveal from "../animate-ui/ScrollReveal";
 
 type ProjectsShowcaseData = typeof import("@/content/home/projectsShowcase.json");
 type BaseShowcaseItem = ProjectsShowcaseData["items"][number];
@@ -30,7 +31,25 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
       className="relative z-10 mx-auto max-w-7xl px-6 pt-8 pb-24 lg:px-12 lg:pt-16"
     >
       <div data-projects-head className="mb-14 text-center">
-        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight">{title}</h2>
+                <ScrollReveal
+          as="h2"
+          className="
+    text-center tracking-tight text-white
+    font-[650]
+    drop-shadow-[0_0_18px_rgba(56,189,248,0.25)]
+    [&_.scroll-reveal-text]:text-[2.35rem]
+    sm:[&_.scroll-reveal-text]:text-6xl
+    lg:[&_.scroll-reveal-text]:text-6xl
+    [&_.scroll-reveal-text]:leading-[1.1]
+  "
+
+          baseOpacity={0}
+          enableBlur
+          blurStrength={12}
+          baseRotation={2}
+        >
+          {title}
+        </ScrollReveal>
         <p className="mt-4 text-white/70 text-xl sm:text-2xl max-w-3xl mx-auto leading-relaxed">{subtitle}</p>
       </div>
 
