@@ -14,7 +14,7 @@ export default function IntroOverlay({ hero }: Props) {
   const handle = hero?.profileCard?.handle ?? "alejandroandrade";
 
   // ⚠️ Ajusta estos 2 cuando quieras:
-  const email = "contacto@ejemplo.com";
+  const email = "alejandro21112@hotmail.com";
   const portfolioHref = "/portfolio";
 
   return (
@@ -34,7 +34,7 @@ export default function IntroOverlay({ hero }: Props) {
         <div className="flex flex-col gap-8">
           <div className={styles.animateText}>
             <p className="text-sky-300 font-medium mb-3 tracking-wide">
-              👋 Hola, soy
+              Hola, soy
             </p>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-none">
@@ -73,9 +73,9 @@ export default function IntroOverlay({ hero }: Props) {
           {/* Redes */}
           <div className={styles.animateSocial}>
             <SocialLinks
-              github="https://github.com/usuario"
-              linkedin="https://linkedin.com/in/usuario"
-              twitter="https://twitter.com/usuario"
+              github="https://github.com/AlejandroAndrade98"
+              linkedin="https://www.linkedin.com/in/alejandroandrade-tech"
+              whatsapp="https://wa.me/573203119505"
             />
           </div>
         </div>

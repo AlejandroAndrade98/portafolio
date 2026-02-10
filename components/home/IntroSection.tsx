@@ -109,7 +109,7 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
                 <div className="mt-4 lg:hidden">
                   <div className="grid grid-cols-2 gap-3">
                     <a
-                      href="mailto:contacto@ejemplo.com"
+                      href="mailto:alejandro21112@hotmail.com"
                       className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
                                  bg-gradient-to-r from-blue-500 to-purple-600
                                  transition-transform duration-200 active:scale-[0.98]"
@@ -133,9 +133,9 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
 
                   <div className="mt-3 flex justify-center">
                     <SocialLinks
-                      github="https://github.com/usuario"
-                      linkedin="https://linkedin.com/in/usuario"
-                      twitter="https://twitter.com/usuario"
+                      github="https://github.com/AlejandroAndrade98"
+                      linkedin="https://www.linkedin.com/in/alejandroandrade-tech"
+                      whatsapp="https://wa.me/573203119505"
                     />
                   </div>
                 </div>
@@ -145,7 +145,7 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
             {/* 🚩 FIX: Desktop text column RESTAURADA (esto era lo que se te perdió) */}
             <div className="hidden lg:flex min-w-0 flex-col gap-6 lg:gap-8">
               <div className={styles.animateText}>
-                <p className="text-blue-400 font-medium mb-3 tracking-wide">👋 Hola, soy</p>
+                <p className="text-blue-400 font-medium mb-3 tracking-wide">Hola, soy</p>
 
                 <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[0.95]">
                   Alejandro
@@ -162,7 +162,7 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
 
               <div className={`flex flex-wrap gap-3 sm:gap-4 ${styles.animateCta}`}>
                 <a
-                  href="mailto:contacto@ejemplo.com"
+                  href="mailto:alejandro21112@hotmail.com"
                   className="group relative inline-flex items-center justify-center px-7 py-3.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-purple-500/25"
                 >
                   <span className="relative z-10">Contáctame</span>
@@ -182,9 +182,9 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
 
               <div className={styles.animateSocial}>
                 <SocialLinks
-                  github="https://github.com/usuario"
-                  linkedin="https://linkedin.com/in/usuario"
-                  twitter="https://twitter.com/usuario"
+                  github="https://github.com/AlejandroAndrade98"
+                  linkedin="https://www.linkedin.com/in/alejandroandrade-tech"
+                  whatsapp="https://wa.me/573203119505"
                 />
               </div>
             </div>

@@ -1,30 +1,38 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin, MessageCircle } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 type SocialLinksProps = {
   github: string;
   linkedin: string;
-  twitter: string;
+  whatsapp: string;
 };
 
-export default function SocialLinks({ github, linkedin, twitter }: SocialLinksProps) {
-  const socialLinks = [
-    { name: "GitHub", href: github, icon: Github },
-    { name: "LinkedIn", href: linkedin, icon: Linkedin },
-    { name: "Twitter", href: twitter, icon: Twitter },
+type SocialLink = {
+  name: string;
+  href: string;
+  Icon: LucideIcon;
+};
+
+export default function SocialLinks({ github, linkedin, whatsapp }: SocialLinksProps) {
+  const socialLinks: SocialLink[] = [
+    { name: "GitHub", href: github, Icon: Github },
+    { name: "LinkedIn", href: linkedin, Icon: Linkedin },
+    { name: "WhatsApp", href: whatsapp, Icon: MessageCircle },
   ];
 
   return (
     <div className="flex gap-4">
-      {socialLinks.map((link) => (
+      {socialLinks.map(({ name, href, Icon }) => (
         <a
-          key={link.name}
-          href={link.href}
+          key={name}
+          href={href}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={link.name}
+          aria-label={name}
+          title={name}
           className="p-2 text-slate-400 transition-all duration-200 hover:scale-110 hover:text-white"
         >
-          <link.icon className="h-6 w-6" />
+          <Icon className="h-6 w-6" />
         </a>
       ))}
     </div>

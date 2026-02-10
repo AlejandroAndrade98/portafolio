@@ -6,7 +6,7 @@ const technologies = [
   { name: "TypeScript", icon: "🔷" },
   { name: "Node.js", icon: "🟢" },
   { name: "Next.js", icon: "▲" },
-  { name: "Tailwind", icon: "🎨" },
+  { name: "AWS", icon: "☁️" },
   { name: "PostgreSQL", icon: "🐘" },
 ];
 

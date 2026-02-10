@@ -7,7 +7,7 @@ type Props = {
   mailto?: string;
   github?: string;
   linkedin?: string;
-  twitter?: string;
+  whatsapp?: string;
 };
 
 type SectionKey = "intro" | "about" | "projects" | "stack";
@@ -16,7 +16,7 @@ export default function HeaderMenu({
   mailto = "mailto:alejandro21112@hotmail.com",
   github = "https://github.com/AlejandroAndrade98",
   linkedin = "https://www.linkedin.com/in/alejandroandrade-tech",
-  twitter = "https://twitter.com/usuario",
+  whatsapp = "https://wa.me/573203119505",
 }: Props) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<SectionKey>("intro");
@@ -346,7 +346,7 @@ const scrollTo = (key: SectionKey, selector: string) => {
                     Redes
                   </p>
                   <div className="flex justify-center">
-                    <SocialLinks github={github} linkedin={linkedin} twitter={twitter} />
+                    <SocialLinks github={github} linkedin={linkedin} whatsapp={whatsapp} />
                   </div>
                 </div>
               </div>

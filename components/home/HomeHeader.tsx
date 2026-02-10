@@ -13,10 +13,6 @@ export default function HomeHeader({ hero }: Props) {
       id="site-header"
       className="fixed inset-x-0 top-0 z-[150] pointer-events-none isolate"
     >
-      {/* 
-        Mobile: columna centrada (92vw) -> se siente centrado
-        Desktop: se expande y se va más a bordes
-      */}
       <div
         className="
           pointer-events-auto mx-auto
@@ -39,13 +35,12 @@ export default function HomeHeader({ hero }: Props) {
             priority
           />
 
-          {/* evita que el botón “encoga” raro */}
           <div className="shrink-0">
             <HeaderMenu
-              mailto="mailto:contacto@ejemplo.com"
-              github="https://github.com/usuario"
-              linkedin="https://linkedin.com/in/usuario"
-              twitter="https://twitter.com/usuario"
+              mailto="mailto:alejandro21112@hotmail.com"
+              github="https://github.com/AlejandroAndrade98"
+              linkedin="https://www.linkedin.com/in/alejandroandrade-tech"
+              whatsapp="https://wa.me/573203119505"
             />
           </div>
         </header>
