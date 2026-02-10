@@ -322,7 +322,7 @@ const scrollTo = (key: SectionKey, selector: string) => {
                       href={mailto}
                       onClick={closeMenu}
                       className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
-                                 bg-gradient-to-r from-blue-500 to-purple-600
+                                 bg-gradient-to-r from-blue-500 to-purple-800
                                  transition-transform duration-200 active:scale-[0.98]"
                     >
                       Contáctame

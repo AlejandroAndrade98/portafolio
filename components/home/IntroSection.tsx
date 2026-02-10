@@ -86,7 +86,7 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
           "
           style={{ minHeight: "100svh" }} // 🚩 para mobile relative
         >
-          <div className="grid w-full grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+          <div className="grid w-full grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-44 items-center">
             {/* Izquierda */}
             <div className={styles.animateCard}>
               <div
@@ -111,7 +111,7 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
                     <a
                       href="mailto:alejandro21112@hotmail.com"
                       className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
-                                 bg-gradient-to-r from-blue-500 to-purple-600
+                                 bg-gradient-to-r from-blue-500 to-purple-800
                                  transition-transform duration-200 active:scale-[0.98]"
                     >
                       Contáctame
@@ -149,7 +149,7 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
 
                 <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[0.95]">
                   Alejandro
-                  <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-600 bg-clip-text text-transparent">
                     Andrade
                   </span>
                 </h1>
@@ -163,7 +163,7 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
               <div className={`flex flex-wrap gap-3 sm:gap-4 ${styles.animateCta}`}>
                 <a
                   href="mailto:alejandro21112@hotmail.com"
-                  className="group relative inline-flex items-center justify-center px-7 py-3.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-purple-500/25"
+                  className="group relative inline-flex items-center justify-center px-7 py-3.5 bg-gradient-to-r from-blue-500 to-purple-800 text-white font-semibold rounded-xl overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-purple-500/25"
                 >
                   <span className="relative z-10">Contáctame</span>
                 </a>

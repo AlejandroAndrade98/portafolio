@@ -77,18 +77,18 @@ export function SimpleProfileCard({ name, handle, title, avatarSrc, status = "On
         {/* 🚩 Stats mini – ocultos en mobile */}
 <div className="hidden sm:flex items-center justify-between mt-8 pt-6 border-t border-white/5">
   <div className="text-center">
-    <p className="text-2xl font-bold text-white">5+</p>
+    <p className="text-2xl font-bold text-white">2+</p>
     <p className="text-xs text-slate-500">Años exp.</p>
   </div>
   <div className="w-px h-8 bg-white/10" />
   <div className="text-center">
-    <p className="text-2xl font-bold text-white">50+</p>
-    <p className="text-xs text-slate-500">Proyectos</p>
+    <p className="text-2xl font-bold text-white">5+</p>
+    <p className="text-xs text-slate-500">Proyectos entregados</p>
   </div>
   <div className="w-px h-8 bg-white/10" />
   <div className="text-center">
-    <p className="text-2xl font-bold text-white">100%</p>
-    <p className="text-xs text-slate-500">Pasión</p>
+    <p className="text-2xl font-bold text-white">Focus</p>
+    <p className="text-xs text-slate-500">Backend</p>
   </div>
 </div>
 

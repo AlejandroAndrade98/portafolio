@@ -43,7 +43,7 @@ export default function AboutSection({ about, pixelCards }: AboutSectionProps) {
 <ScrollReveal
   as="h2"
   className="
-    text-center font-semibold tracking-tight text-sky-200/90
+    text-center font-semibold tracking-tight text-white
     drop-shadow-[0_0_18px_rgba(56,189,248,0.25)]
     [&_.scroll-reveal-text]:text-[2.35rem]
     sm:[&_.scroll-reveal-text]:text-4xl
@@ -58,13 +58,13 @@ export default function AboutSection({ about, pixelCards }: AboutSectionProps) {
   {about.title}
 </ScrollReveal>
 
-          <div className="mt-24 space-y-6 text-[1.15rem] leading-relaxed text-white/80">
+          <div className="mt-24 space-y-6 text-[1.15rem] leading-relaxed text-white">
             {about.paragraphs.map((p, idx) => (
               <ScrollReveal
                 key={idx}
                 as="p"
                 className="
-  text-[1.55rem] leading-[1.35] font-medium text-cyan-100/90
+  text-[1.55rem] leading-[1.35] font-medium text-white
   sm:text-[2.05rem]
   lg:text-[2.35rem]
 "

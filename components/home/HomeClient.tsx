@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useIntroGsap } from "@/hooks/useIntroGsap";
 
@@ -19,6 +19,8 @@ import HomeHeader from "@/components/home/HomeHeader";
 
 import type { ComponentProps } from "react";
 
+
+
 export default function HomeClient() {
   const mainRef = useRef<HTMLElement | null>(null);
   const isMobile = useMediaQuery("(max-width: 1024px)");
@@ -30,6 +32,11 @@ export default function HomeClient() {
   type ShowcaseItem = ProjectsSectionProps["items"][number];
 
   const items = projectsShowcase.items as unknown as ShowcaseItem[];
+
+  useEffect(() => {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
 
 return (
   <>
