@@ -173,6 +173,27 @@ body {
   display: inline;
 }
 
+/* ===== OVERRIDE: About title (solo sección About) ===== */
+#about h2.scroll-reveal .scroll-reveal-text{
+  /* Sube el tamaño en mobile */
+  font-size: clamp(2.6rem, 7.2vw, 3.4rem);
+  line-height: 1.1;
+  font-weight: 650;
+}
+
+/* Si en sm+ quieres que vuelva a un tamaño “normal” */
+@media (min-width: 640px){
+  #about h2.scroll-reveal .scroll-reveal-text{
+    font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  }
+}
+
+/* (Opcional) si el título te mete “aire” extra por margin del wrapper */
+#about h2.scroll-reveal{
+  margin: 0;
+}
+
+
 /* SOLO títulos grandes (como en tu About/Projects title) */
 h1.scroll-reveal .scroll-reveal-text,
 h2.scroll-reveal .scroll-reveal-text {

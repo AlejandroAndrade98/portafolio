@@ -73,26 +73,31 @@
         "poster": "/projects/equiprocess/equiprocess.mp4",
         "alt": "equiprocess-Video"
       }
-    ],"example2": [
+    ],"Golds": [
       {
         "type": "image",
-        "src": "/projects/spellbook/rohanImage1.webp",
+        "src": "/projects/golds/goldImage.webp",
         "alt": "Home - Hero y navegación"
       },
       {
         "type": "image",
-        "src": "/projects/spellbook/rohanImage2.webp",
+        "src": "/projects/golds/goldImage1.webp",
         "alt": "Listado - Colección y filtros"
       },
       {
         "type": "image",
-        "src": "/projects/spellbook/rohanImage3.webp",
+        "src": "/projects/golds/goldImage2.webp",
+        "alt": "Detalle - Página de producto"
+      },
+      {
+        "type": "image",
+        "src": "/projects/golds/goldImage3.webp",
         "alt": "Detalle - Página de producto"
       },
       {
         "type": "video",
-        "src": "/projects/spellbook/rohanVideo1.mp4",
-        "poster": "/projects/spellbook/rohanVideo1.mp4",
+        "src": "/projects/golds/goldsVideo1.mp4",
+        "poster": "/projects/golds/goldsVideo1.mp4",
         "alt": "Video"
       }
     ],"example3": [

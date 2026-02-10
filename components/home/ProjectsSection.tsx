@@ -27,11 +27,11 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
     <section
       id="projects"
       ref={sectionRef}
-      className="relative z-10 mx-auto max-w-7xl px-6 py-24 lg:px-12"
+      className="relative z-10 mx-auto max-w-7xl px-6 pt-8 pb-24 lg:px-12 lg:pt-16"
     >
       <div data-projects-head className="mb-14 text-center">
-        <h2 className="text-4xl font-semibold tracking-tight">{title}</h2>
-        <p className="mt-3 text-white/70 text-lg max-w-2xl mx-auto">{subtitle}</p>
+        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight">{title}</h2>
+        <p className="mt-4 text-white/70 text-xl sm:text-2xl max-w-3xl mx-auto leading-relaxed">{subtitle}</p>
       </div>
 
       <div className="flex flex-col gap-24">

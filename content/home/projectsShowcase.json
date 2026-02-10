@@ -30,13 +30,13 @@
       "galleryKey": "Equiprocess"
     },
     {
-      "id": "example",
-      "title": "Embipos",
+      "id": "Golds",
+      "title": "Golds",
       "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
       "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
       "href": "",
       "repo": "",
-      "galleryKey": "embipos"
+      "galleryKey": "Golds"
     },
     {
       "id": "example2",
