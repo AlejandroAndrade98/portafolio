@@ -76,28 +76,28 @@
     ],"Golds": [
       {
         "type": "image",
-        "src": "/projects/golds/goldImage.webp",
+        "src": "/projects/golds/goldsImage.webp",
         "alt": "Home - Hero y navegación"
       },
       {
         "type": "image",
-        "src": "/projects/golds/goldImage1.webp",
+        "src": "/projects/golds/goldsImage1.webp",
         "alt": "Listado - Colección y filtros"
       },
       {
         "type": "image",
-        "src": "/projects/golds/goldImage2.webp",
+        "src": "/projects/golds/goldsImage2.webp",
         "alt": "Detalle - Página de producto"
       },
       {
         "type": "image",
-        "src": "/projects/golds/goldImage3.webp",
+        "src": "/projects/golds/goldsImage3.webp",
         "alt": "Detalle - Página de producto"
       },
       {
         "type": "video",
-        "src": "/projects/golds/goldsVideo1.mp4",
-        "poster": "/projects/golds/goldsVideo1.mp4",
+        "src": "/projects/golds/goldsVideo.mp4",
+        "poster": "/projects/golds/goldsVideo.mp4",
         "alt": "Video"
       }
     ],"example3": [

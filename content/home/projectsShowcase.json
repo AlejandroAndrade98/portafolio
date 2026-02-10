@@ -34,7 +34,7 @@
       "title": "Golds",
       "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
       "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
-      "href": "",
+      "href": "https://goldsfood-landing-ja4t.vercel.app/",
       "repo": "",
       "galleryKey": "Golds"
     },
