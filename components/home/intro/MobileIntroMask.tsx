@@ -4,14 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./MobileIntroMask.module.css";
 
 const ANIM_MS = 3200;
+const STORAGE_KEY = "introMaskShown";
 
 export default function MobileIntroMask() {
   const [visible, setVisible] = useState(false);
-  const didInit = useRef(false);
-  const finished = useRef(false);
+
+  const didInit = useRef(false);         // 🚩 evita doble-run en dev/StrictMode
+  const finished = useRef(false);        // 🚩 evita doble finish
+  const finishRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    if (didInit.current) return; // 🚩 evita double-run en dev/StrictMode
+    if (didInit.current) return;
     didInit.current = true;
 
     if (typeof window === "undefined") return;
@@ -24,20 +27,22 @@ export default function MobileIntroMask() {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const isProd = process.env.NODE_ENV === "production"; // 🚩 en dev: que reaparezca en reload
+    const isProd = process.env.NODE_ENV === "production";
+
+    // 🚩 comportamiento en dev vs prod
     try {
       const nav = performance.getEntriesByType("navigation")[0] as
         | PerformanceNavigationTiming
         | undefined;
 
-      // 🚩 Si recargas, deja que vuelva a salir
-      if (nav?.type === "reload") sessionStorage.removeItem("introMaskShown");
+      // En dev: siempre vuelve a salir
+      if (!isProd) sessionStorage.removeItem(STORAGE_KEY);
 
-      // 🚩 En dev, NO persistimos "introMaskShown"
-      if (!isProd) sessionStorage.removeItem("introMaskShown");
+      // Si fue reload: deja que vuelva a salir (útil para debug)
+      if (nav?.type === "reload") sessionStorage.removeItem(STORAGE_KEY);
 
-      // 🚩 En prod: 1 vez por sesión
-      if (isProd && sessionStorage.getItem("introMaskShown")) return;
+      // En prod: 1 vez por sesión
+      if (isProd && sessionStorage.getItem(STORAGE_KEY)) return;
     } catch {
       // ignore
     }
@@ -45,7 +50,7 @@ export default function MobileIntroMask() {
     const prevHtmlOverflow = document.documentElement.style.overflow;
     const prevBodyOverflow = document.body.style.overflow;
 
-    const restore = () => {
+    const restoreScroll = () => {
       document.documentElement.style.overflow = prevHtmlOverflow;
       document.body.style.overflow = prevBodyOverflow;
     };
@@ -54,32 +59,40 @@ export default function MobileIntroMask() {
       if (finished.current) return;
       finished.current = true;
 
-      restore();
-      setVisible(false);
+      restoreScroll();
 
-      // 🚩 marca como visto (solo en prod)
+      // marca como visto (solo prod)
       try {
-        if (isProd) sessionStorage.setItem("introMaskShown", "true");
+        if (isProd) sessionStorage.setItem(STORAGE_KEY, "true");
       } catch {
         // ignore
       }
 
-      // 🚩 avisa a GSAP/ScrollTrigger que refresque mediciones
-      window.dispatchEvent(new Event("mobile-intro-mask-done"));
-      window.dispatchEvent(new Event("resize"));
+      // 🚩 Edge/ScrollTrigger: fuerza recalcular medidas
+      requestAnimationFrame(() => {
+        window.dispatchEvent(new Event("resize"));
+        window.dispatchEvent(new Event("mobile-intro-mask-done"));
+      });
+
+      setVisible(false);
     };
+
+    finishRef.current = finish;
 
     // lock scroll
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
-    setVisible(true);
 
-    // 🚩 fallback por si Edge no dispara animationend
-    const t = window.setTimeout(finish, ANIM_MS + 200);
+    // ✅ clave: NO setState síncrono dentro del effect
+    requestAnimationFrame(() => setVisible(true));
+
+    // fallback por si Edge no dispara animationend
+    const t = window.setTimeout(finish, ANIM_MS + 250);
 
     return () => {
       window.clearTimeout(t);
-      restore();
+      if (!finished.current) restoreScroll();
+      finishRef.current = null;
     };
   }, []);
 
@@ -87,32 +100,18 @@ export default function MobileIntroMask() {
 
   return (
     <div
-      data-mobile-intro-mask="1" // 🚩 para detectar overlay si lo necesitas
+      data-mobile-intro-mask="1" // 🚩 por si quieres detectarlo desde otro lado
       className={styles.overlay}
       onAnimationEnd={(e) => {
-  if (e.target !== e.currentTarget) return;
-
-  // unlock scroll
-  document.documentElement.style.overflow = "";
-  document.body.style.overflow = "";
-
-  try {
-    if (process.env.NODE_ENV === "production") {
-      sessionStorage.setItem("introMaskShown", "true");
-    }
-  } catch {}
-
-  // ✅ Edge fix: fuerza reflow + repaint
-  void document.body.offsetHeight; // 🚩 fuerza reflow
-  requestAnimationFrame(() => {
-    window.dispatchEvent(new Event("resize"));
-    window.dispatchEvent(new Event("mobile-intro-mask-done"));
-  });
-
-  setVisible(false);
-}}
+        if (e.target !== e.currentTarget) return; // solo el overlay
+        finishRef.current?.();
+      }}
     >
-      <svg className={styles.svgMask} viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        className={styles.svgMask}
+        viewBox="0 0 1200 400"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <defs>
           <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#38bdf8" />
