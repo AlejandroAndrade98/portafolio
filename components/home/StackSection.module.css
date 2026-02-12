@@ -1,0 +1,197 @@
+@keyframes fadeInRise {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.05); }
+  50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.15); }
+}
+
+.sectionGlow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.animateHeader { opacity: 0; animation: fadeInRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animateCard1 { opacity: 0; animation: fadeInRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; }
+.animateCard2 { opacity: 0; animation: fadeInRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards; }
+.animateCard3 { opacity: 0; animation: fadeInRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+.animateCallout { opacity: 0; animation: fadeInRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+.animateProof { opacity: 0; animation: fadeInRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; }
+
+/* Button container */
+.cardContainer {
+  perspective: 1000px;
+  height: 280px;
+  cursor: pointer;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.cardContainer:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.45);
+  outline-offset: 6px;
+  border-radius: 16px;
+}
+
+/* Flip */
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+.flipped { transform: rotateY(180deg); }
+
+.cardFace {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cardFront {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.cardBack {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(59, 130, 246, 0.04) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  backdrop-filter: blur(12px);
+  transform: rotateY(180deg);
+}
+
+/* Animated border */
+.cardFront::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent 20%, rgba(6, 182, 212, 0.3) 50%, transparent 80%);
+  background-size: 200% 200%;
+  animation: shimmer 4s ease-in-out infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.cardContainer:hover .cardFront::before { opacity: 1; }
+
+.iconWrapper { transition: transform 0.3s ease; }
+.cardContainer:hover .iconWrapper { animation: float 2s ease-in-out infinite; }
+.cardContainer:hover .cardFront { animation: pulseGlow 2s ease-in-out infinite; }
+
+.clickHint { opacity: 0.4; transition: opacity 0.3s ease, transform 0.3s ease; }
+.cardContainer:hover .clickHint { opacity: 0.8; transform: translateX(4px); }
+
+/* Callout */
+.calloutBar {
+  border-left: 3px solid #06b6d4;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.calloutBar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, #22d3ee, #3b82f6, #22d3ee);
+  background-size: 100% 200%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Proof text shimmer */
+.proofText {
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.6) 0%,
+    rgba(6, 182, 212, 0.8) 50%,
+    rgba(148, 163, 184, 0.6) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animateHeader, .animateCard1, .animateCard2, .animateCard3, .animateCallout, .animateProof {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+  .cardFront::before, .calloutBar::before { animation: none; }
+  .cardContainer:hover .iconWrapper { animation: none; }
+  .cardContainer:hover .cardFront { animation: none; }
+  .proofText { animation: none; }
+}
+
+.bgBlend {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  /* Más largo y suave (evita el salto) */
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 15, 0) 0px,
+    rgba(10, 10, 15, 0) 140px,
+    rgba(10, 10, 15, 0.45) 360px,
+    rgba(10, 10, 15, 0.82) 620px,
+    #0a0a0f 100%
+  );
+
+  /* ✅ CLAVE: que el stack "no afecte" los primeros px */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 260px);
+  mask-image: linear-gradient(to bottom, transparent 0px, black 260px);
+}
+
+.sectionGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+
+  /* ✅ CLAVE: el glow también debe entrar con fade, si no, corta */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 260px);
+  mask-image: linear-gradient(to bottom, transparent 0px, black 260px);
+}
