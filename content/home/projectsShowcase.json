@@ -5,8 +5,8 @@
     {
       "id": "spellbook",
       "title": "Rohan Spellbook",
-      "description": "E-commerce para Magic: The Gathering con interfaz moderna y enfoque en UX.",
-      "tech": ["Next.js", "React", "Tailwind", "AWS"],
+      "description": "E-commerce de Magic: The Gathering con arquitectura moderna y eficiente.\n• Frontend en Next.js, React y Tailwind CSS.\n• Backend serverless en AWS con Lambda.\n• Amazon RDS dentro de una VPC privada.\n• Acceso seguro con EC2 bastion host + túnel SSH.",
+      "tech": ["Next.js", "React", "Tailwind", "AWS", "Lambda", "RDS", "VPC", "EC2", "SSH"],
       "href": "https://rohanspellbook.com/",
       "repo": "",
       "galleryKey": "spellbook"
@@ -14,8 +14,8 @@
     {
       "id": "Delirios",
       "title": "Delirios",
-      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
-      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "description": "Desarrollé una página web para Delirios, una tienda de postres que buscaba tener presencia digital y un espacio claro para contar quiénes son. El sitio funciona como vitrina de marca, presenta su historia, identidad y valores, y muestra su catálogo de productos con una navegación sencilla, pensada para que cualquier persona pueda conocerlos rápido y contactarles fácilmente.",
+      "tech": ["Node.js", "React", "Prisma", "Tailwind", "Google analytics"],
       "href": "https://deliriospasteleria.com/",
       "repo": "",
       "galleryKey": "Delirios"
@@ -23,38 +23,38 @@
     {
       "id": "Equiprocess",
       "title": "Equiprocess",
-      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
-      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "description": "Landing page para una empresa de ingeniería en acero inoxidable y automatización industrial. Presenta sus servicios, sectores y soluciones a medida, con un frontend en React + Vite y diseño responsive en Tailwind, optimizado para performance y contacto comercial.",
+      "tech": ["Vite", "React", "TypeScript", "TailwindCSS", "ESLint", "PostCSS", "Vercel/Netlify"],
       "href": "https://equiprocess-project.vercel.app/",
       "repo": "",
       "galleryKey": "Equiprocess"
     },
     {
       "id": "Golds",
-      "title": "Golds",
-      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
-      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
+      "title": "Golds Food",
+      "description": "El objetivo principal de Golds Food es ofrecer una experiencia digital intuitiva que permita al usuario:\n\n- Explorar menús de comidas saludables.\n- Visualizar productos destacados con imagen y descripción.\n- Contactar y realizar pedidos de forma rápida.\n- Entender los beneficios nutricionales de cada opción.\n\nEste tipo de proyecto es ideal para negocios de comida preparados para digitalizar su presencia y facilitar la interacción con sus clientes.",
+      "tech": ["React", "Vite", "Tailwind CSS", "JSON"],
       "href": "https://goldsfood-landing-ja4t.vercel.app/",
       "repo": "",
       "galleryKey": "Golds"
     },
     {
-      "id": "example2",
-      "title": "Embipos",
-      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
-      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
-      "href": "",
+      "id": "Significarte",
+      "title": "Significarte",
+      "description": "Landing page desarrollada para Fundación Significarte, una organización sin ánimo de lucro dedicada al restablecimiento de derechos de poblaciones vulnerables. El proyecto busca presentar de forma clara quiénes son, su misión y su impacto social, mostrar los programas y grupos poblacionales a los que apoyan, facilitar el contacto, voluntariado y donaciones mediante una interfaz accesible y emocionalmente cuidada, y ofrecer una plataforma moderna, rápida y con identidad visual propia.",
+      "tech": ["React", "TypeScript", "Vite", "TailwindCSS", "Radix UI", "shadcn-style UI", "React Query"],
+      "href": "https://signific-arte.vercel.app/",
       "repo": "",
-      "galleryKey": "embipos"
+      "galleryKey": "Significarte"
     },
     {
-      "id": "example3",
-      "title": "Embipos",
-      "description": "POS API con auth JWT, roles y CRUD protegido para productos y ventas.",
-      "tech": ["Node.js", "Express", "Prisma", "MySQL", "JWT"],
-      "href": "",
+      "id": "Huggies",
+      "title": "Huggies",
+      "description": "Landing page co-brandeada para la alianza Ser Mamá by Simona + Huggies, diseñada para campañas de contenido y producto. Implementé una experiencia responsive con header personalizado, hero visual, sección de video, banner publicitario adaptable y carrusel/blogs con comportamiento optimizado en mobile y desktop. El contenido del sitio se gestiona con archivos JSON para facilitar edición rápida de textos, imágenes y secciones.",
+      "tech": ["React", "TypeScript", "Vite", "TailwindCSS", "JSON", "Responsive Design", "Vercel"],
+      "href": "https://huggies-project.vercel.app/",
       "repo": "",
-      "galleryKey": "embipos"
+      "galleryKey": "Huggies"
     }
   ]
 }

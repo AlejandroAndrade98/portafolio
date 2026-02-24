@@ -9,9 +9,11 @@
     "rightText": "Menu"
   },
   "profileCard": {
-    "name": "Alejandro Andrade",
+    "name": "Alejandro Anibal Andrade",
     "title": "Software Developer",
     "handle": "alejandroandrade",
+    "mail": "alejandro21112@hotmail.com",
+    "phone": "+573203119505",
     "status": "Online",
     "contactText": "Contact Me",
     "avatarUrl": "/perfil.jpeg",

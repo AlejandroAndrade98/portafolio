@@ -258,3 +258,9 @@
     transform: none;
   }
 }
+
+.copyable {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  cursor: text;
+}

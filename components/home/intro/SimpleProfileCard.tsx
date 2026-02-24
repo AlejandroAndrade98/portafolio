@@ -16,9 +16,23 @@ type Props = {
   title: string;
   avatarSrc: string;
   status?: string;
+  mail?: string;
+  phone?: string;
+  showUserInfo?: boolean;
 };
 
-export function SimpleProfileCard({ name, handle, title, avatarSrc, status = "Online" }: Props) {
+export function SimpleProfileCard({
+  name,
+  handle,
+  title,
+  avatarSrc,
+  status = "Online",
+  mail,
+  phone,
+  showUserInfo = false,
+}: Props) {
+  const waHref = phone ? `https://wa.me/${phone.replace(/\D/g, "")}` : "";
+
   return (
     <div className="relative">
       <div className={styles.glowBorder} />
@@ -45,7 +59,34 @@ export function SimpleProfileCard({ name, handle, title, avatarSrc, status = "On
           <div className="min-w-0">
             <h3 className="text-xl font-bold text-white truncate">{name}</h3>
             <p className="text-slate-400 text-sm truncate">@{handle}</p>
-            <p className="text-slate-400 text-sm">{title}</p>
+
+            {/* ✅ NUEVO: mail + phone justo debajo del handle */}
+{showUserInfo && (mail || phone) && (
+  <div className="mt-1 space-y-1 text-sm text-slate-400 min-w-0">
+    {mail && (
+      <a
+        href={`mailto:${mail}`}
+        className="block truncate hover:text-slate-200 transition select-text"
+        title={mail}
+      >
+        {mail}
+      </a>
+    )}
+
+    {phone && (
+      <a
+        href={waHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block truncate hover:text-slate-200 transition select-text"
+        title={phone}
+      >
+        {phone}
+      </a>
+    )}
+  </div>
+)}
+            <p className="text-slate-400 text-sm mt-2">{title}</p>
 
             <span className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-medium rounded-full">
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
@@ -74,24 +115,23 @@ export function SimpleProfileCard({ name, handle, title, avatarSrc, status = "On
           </div>
         </div>
 
-        {/* 🚩 Stats mini – ocultos en mobile */}
-<div className="hidden sm:flex items-center justify-between mt-8 pt-6 border-t border-white/5">
-  <div className="text-center">
-    <p className="text-2xl font-bold text-white">2+</p>
-    <p className="text-xs text-slate-500">Años exp.</p>
-  </div>
-  <div className="w-px h-8 bg-white/10" />
-  <div className="text-center">
-    <p className="text-2xl font-bold text-white">5+</p>
-    <p className="text-xs text-slate-500">Proyectos entregados</p>
-  </div>
-  <div className="w-px h-8 bg-white/10" />
-  <div className="text-center">
-    <p className="text-2xl font-bold text-white">Focus</p>
-    <p className="text-xs text-slate-500">Backend</p>
-  </div>
-</div>
-
+        {/* Stats mini – ocultos en mobile */}
+        <div className="hidden sm:flex items-center justify-between mt-8 pt-6 border-t border-white/5">
+          <div className="text-center">
+            <p className="text-2xl font-bold text-white">2+</p>
+            <p className="text-xs text-slate-500">Años exp.</p>
+          </div>
+          <div className="w-px h-8 bg-white/10" />
+          <div className="text-center">
+            <p className="text-2xl font-bold text-white">5+</p>
+            <p className="text-xs text-slate-500">Proyectos entregados</p>
+          </div>
+          <div className="w-px h-8 bg-white/10" />
+          <div className="text-center">
+            <p className="text-2xl font-bold text-white">Focus</p>
+            <p className="text-xs text-slate-500">Backend</p>
+          </div>
+        </div>
       </div>
     </div>
   );

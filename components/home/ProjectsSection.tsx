@@ -96,7 +96,7 @@ export default function ProjectsSection({ title, subtitle, items }: ProjectsSect
                   </p>
                   <h3 className="mt-2 text-3xl font-semibold tracking-tight">{p.title}</h3>
 
-                  <p className="mt-4 text-white/75 leading-relaxed">{p.description}</p>
+                  <p className="mt-4 whitespace-pre-line text-white/75 leading-relaxed">{p.description}</p>
 
                   {!!p.tech?.length && (
                     <div className="mt-5 flex flex-wrap gap-2">

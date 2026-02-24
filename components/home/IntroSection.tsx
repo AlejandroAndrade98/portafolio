@@ -99,8 +99,11 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
                 "
               >
                 <SimpleProfileCard
-                  name={hero.profileCard?.name ?? "Alejandro Andrade"}
+                  name={hero.profileCard?.name ?? "Alejandro Anibal Andrade"}
                   handle={hero.profileCard?.handle ?? "alejandroandrade"}
+                  mail={hero.profileCard?.mail ?? "alejandro21112@hotmail.com"}
+                  phone={hero.profileCard?.phone ?? "+573203119505"}
+                  showUserInfo={hero.profileCard?.showUserInfo ?? true}
                   title={hero.profileCard?.title ?? "Software Developer"}
                   avatarSrc={hero.profileCard?.avatarUrl ?? "/avatar.jpg"}
                 />
