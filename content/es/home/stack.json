@@ -1,0 +1,58 @@
+{
+  "title": "Stack",
+  "subtitle": "Next.js — React — Tailwind — Node — AWS — MySQL — Prisma.",
+  "tag": "Stack",
+  "cards": [
+    {
+      "key": "apis",
+      "icon": "server",
+      "title": "APIs (Node + Express)",
+      "text": "Rutas, controladores y middlewares para flujos claros y mantenibles.",
+      "details": [
+        "Arquitectura RESTful con separación clara de responsabilidades",
+        "Middlewares reutilizables para auth, logging y validación",
+        "Manejo de errores centralizado con respuestas consistentes",
+        "Versionado de API y documentación integrada"
+      ]
+    },
+    {
+      "key": "auth",
+      "icon": "shield",
+      "title": "Auth y Roles",
+      "text": "JWT, refresh tokens y RBAC para acceso seguro y granular.",
+      "details": [
+        "Flujo completo, login, registro, refresh y logout",
+        "Tokens con expiración y rotación automática",
+        "Control de acceso por roles y permisos específicos",
+        "Buenas prácticas contra ataques comunes, CSRF, XSS"
+      ]
+    },
+    {
+      "key": "data",
+      "icon": "database",
+      "title": "Data Layer",
+      "text": "MySQL o Postgres + Prisma, relaciones claras y migraciones controladas.",
+      "details": [
+        "Schemas tipados con Prisma para consistencia total",
+        "Migraciones versionadas y reproducibles",
+        "Relaciones 1:N y N:M con tablas intermedias",
+        "Seeds y fixtures para desarrollo y testing"
+      ]
+    }
+  ],
+  "callout": {
+    "title": "Diagnóstico primero, cambios con intención",
+    "bullets": [
+      "Logging y trazabilidad básica",
+      "Validación de inputs en cada endpoint",
+      "Manejo de errores consistente y predecible",
+      "Separación por capas, routes, services, db"
+    ]
+  },
+  "proofText": "Aplicado en proyectos reales como Embipos POS API (Express + Prisma + MySQL).",
+  "ui": {
+    "seeDetails": "Ver detalles",
+    "clickToReturn": "Click para volver",
+    "ariaOpenDetails": "Abrir detalles"
+  }
+}

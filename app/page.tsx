@@ -1,5 +1,5 @@
-import HomeClient from "@/components/home/HomeClient";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <HomeClient />;
+  redirect("/en");
 }

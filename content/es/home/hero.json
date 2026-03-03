@@ -1,0 +1,58 @@
+{
+  "introText": {
+  "hello": "Hola, soy",
+  "ctaContact": "Contáctame",
+  "ctaPortfolio": "Ver Portfolio",
+  "tagline": "Desarrollador de software. Construyo productos con foco en performance, UX y detalle visual."
+  },
+
+  "header": {
+    "logo": {
+      "src": "/AlejandroAndrade.svg",
+      "alt": "Alejandro Andrade",
+      "width": 512,
+      "height": 512
+    },
+    "rightText": "Menu"
+  },
+  "profileCard": {
+    "name": "Alejandro Anibal Andrade",
+    "title": "Software Developer",
+    "handle": "alejandroandrade",
+    "mail": "alejandro21112@hotmail.com",
+    "phone": "+573203119505",
+    "status": "Online",
+    "contactText": "Contact Me",
+    "avatarUrl": "/perfil.jpeg",
+    "iconUrl": "/profile-card/grain.png",
+    "showUserInfo": true,
+    "enableTilt": true,
+    "enableMobileTilt": false
+  },
+  "magicBentoCards": [
+    {
+      "id": "about",
+      "label": "About",
+      "title": "Sobre mí",
+      "description": "Quién soy — qué construyo — y cómo pienso.",
+      "targetSelector": "#about",
+      "color": "rgba(5, 10, 25, 0.55)"
+    },
+    {
+      "id": "stack",
+      "label": "Stack",
+      "title": "Tecnologías",
+      "description": "Next.js — React — Node — AWS — MySQL — Prisma…",
+      "targetSelector": "#stack",
+      "color": "rgba(5, 10, 25, 0.55)"
+    },
+    {
+      "id": "projects",
+      "label": "Projects",
+      "title": "Proyectos",
+      "description": "Spellbook — Embipos — Labs y más.",
+      "targetSelector": "#projects",
+      "color": "rgba(5, 10, 25, 0.55)"
+    }
+  ]
+}

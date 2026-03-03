@@ -1,6 +1,10 @@
 {
-  "title": "Projects",
+  "title": "Proyectos",
   "subtitle": "Algunos de los proyectos que he construido",
+  "ui": {
+    "ctaProject": "Ver proyecto",
+    "ctaRepo": "Repo"
+  },
   "items": [
     {
       "id": "spellbook",

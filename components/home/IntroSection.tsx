@@ -1,14 +1,17 @@
 import styles from "./intro/IntroSection.module.css";
 import { SimpleProfileCard } from "./intro/SimpleProfileCard";
 import SocialLinks from "./intro/SocialLinks";
-import MobileIntroMask from "./intro/MobileIntroMask"; // 🚩 NUEVO
+import MobileIntroMask from "./intro/MobileIntroMask"; 
+
+import LocaleToggle from "@/components/i18n/LocaleToggle";
 
 type IntroSectionProps = {
-  hero: typeof import("@/content/home/hero.json");
+  hero: typeof import("@/content/en/home/hero.json");
   isMobile?: boolean;
+  locale: "en" | "es";
 };
 
-export default function IntroSection({ hero, isMobile = false }: IntroSectionProps) {
+export default function IntroSection({ hero, isMobile = false, locale }: IntroSectionProps) {
   return (
     <section
       id="intro"
@@ -109,46 +112,55 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
                 />
 
                 {/* ✅ Mobile CTAs dentro del cuadro */}
-                <div className="mt-4 lg:hidden">
-                  <div className="grid grid-cols-2 gap-3">
-                    <a
-                      href="mailto:alejandro21112@hotmail.com"
-                      className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
-                                 bg-gradient-to-r from-blue-500 to-purple-800
-                                 transition-transform duration-200 active:scale-[0.98]"
-                    >
-                      Contáctame
-                    </a>
+<div className="mt-4 lg:hidden">
+  <div className="grid grid-cols-[1fr_1fr_auto] gap-2">
+    <a
+      href={`mailto:${hero.profileCard?.mail ?? "alejandro21112@hotmail.com"}`}
+      className="inline-flex items-center justify-center px-3 py-3 rounded-2xl font-semibold text-white
+                 bg-gradient-to-r from-blue-500 to-purple-800
+                 transition-transform duration-200 active:scale-[0.98]"
+    >
+      {hero.introText?.ctaContact ?? "Contact Me"}
+    </a>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                        history.replaceState(null, "", "#projects");
-                      }}
-                      className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
-                                 border border-white/15 bg-white/5
-                                 transition-transform duration-200 active:scale-[0.98]"
-                    >
-                      Ver Portfolio
-                    </button>
-                  </div>
+    <button
+      type="button"
+      onClick={() => {
+        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", "#projects");
+      }}
+      className="inline-flex items-center justify-center px-3 py-3 rounded-2xl font-semibold text-white
+                 border border-white/15 bg-white/5
+                 transition-transform duration-200 active:scale-[0.98]"
+    >
+      {hero.introText?.ctaPortfolio ?? "View Portfolio"}
+    </button>
 
-                  <div className="mt-3 flex justify-center">
-                    <SocialLinks
-                      github="https://github.com/AlejandroAndrade98"
-                      linkedin="https://www.linkedin.com/in/alejandroandrade-tech"
-                      whatsapp="https://wa.me/573203119505"
-                    />
-                  </div>
-                </div>
+    {/* ✅ Toggle pequeño */}
+    <LocaleToggle
+    locale={locale}
+    size="md"
+    className="rounded-2xl self-center"
+    />
+  </div>
+
+  <div className="mt-3 flex justify-center">
+    <SocialLinks
+      github="https://github.com/AlejandroAndrade98"
+      linkedin="https://www.linkedin.com/in/alejandroandrade-tech"
+      whatsapp="https://wa.me/573203119505"
+    />
+  </div>
+</div>
               </div>
             </div>
 
             {/* 🚩 FIX: Desktop text column RESTAURADA (esto era lo que se te perdió) */}
             <div className="hidden lg:flex min-w-0 flex-col gap-6 lg:gap-8">
               <div className={styles.animateText}>
-                <p className="text-blue-400 font-medium mb-3 tracking-wide">Hola, soy</p>
+                <p className="text-blue-400 font-medium mb-3 tracking-wide">
+                {hero.introText?.hello ?? "Hi, I'm"}
+                </p>
 
                 <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[0.95]">
                   Alejandro
@@ -158,17 +170,16 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
                 </h1>
 
                 <p className="mt-5 text-base sm:text-xl text-slate-300/80 max-w-lg leading-relaxed">
-                  Desarrollador de software. Construyo productos con foco en{" "}
-                  <span className="text-white font-medium">performance</span>, UX y detalle visual.
+                {hero.introText?.tagline ?? "Software developer. I build products focused on performance, UX, and visual detail."}
                 </p>
               </div>
 
-              <div className={`flex flex-wrap gap-3 sm:gap-4 ${styles.animateCta}`}>
+              <div className={`flex items-center gap-3 sm:gap-4 ${styles.animateCta}`}>
                 <a
-                  href="mailto:alejandro21112@hotmail.com"
+                  href={`mailto:${hero.profileCard?.mail ?? "alejandro21112@hotmail.com"}`}
                   className="group relative inline-flex items-center justify-center px-7 py-3.5 bg-gradient-to-r from-blue-500 to-purple-800 text-white font-semibold rounded-xl overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-purple-500/25"
                 >
-                  <span className="relative z-10">Contáctame</span>
+                  <span className="relative z-10">{hero.introText?.ctaContact ?? hero.profileCard?.contactText ?? "Contact Me"}</span>
                 </a>
 
                 <button
@@ -179,8 +190,9 @@ export default function IntroSection({ hero, isMobile = false }: IntroSectionPro
                   }}
                   className="inline-flex items-center justify-center px-7 py-3.5 border border-white/20 text-white font-semibold rounded-xl transition-transform duration-300 hover:bg-white/5 hover:border-white/40 hover:scale-[1.03]"
                 >
-                  Ver Portfolio
+                {hero.introText?.ctaPortfolio ?? "View Portfolio"}
                 </button>
+                <LocaleToggle locale={locale} size="md" />
               </div>
 
               <div className={styles.animateSocial}>

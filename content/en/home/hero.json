@@ -1,4 +1,10 @@
 {
+  "introText": {
+  "hello": "Hi, I'm",
+  "ctaContact": "Contact Me",
+  "ctaPortfolio": "View Portfolio",
+  "tagline": "Software developer. I build products focused on performance, UX, and visual detail."
+  },
   "header": {
     "logo": {
       "src": "/AlejandroAndrade.svg",
@@ -26,24 +32,24 @@
     {
       "id": "about",
       "label": "About",
-      "title": "Sobre mí",
-      "description": "Quién soy — qué construyo — y cómo pienso.",
+      "title": "About me",
+      "description": "Who I am, what I build, and how I think.",
       "targetSelector": "#about",
       "color": "rgba(5, 10, 25, 0.55)"
     },
     {
       "id": "stack",
       "label": "Stack",
-      "title": "Tecnologías",
-      "description": "Next.js — React — Node — AWS — MySQL — Prisma…",
+      "title": "Technologies",
+      "description": "Next.js, React, Node, AWS, MySQL, Prisma…",
       "targetSelector": "#stack",
       "color": "rgba(5, 10, 25, 0.55)"
     },
     {
       "id": "projects",
       "label": "Projects",
-      "title": "Proyectos",
-      "description": "Spellbook — Embipos — Labs y más.",
+      "title": "Projects",
+      "description": "Spellbook, Embipos, Labs, and more.",
       "targetSelector": "#projects",
       "color": "rgba(5, 10, 25, 0.55)"
     }

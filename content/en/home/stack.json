@@ -1,0 +1,58 @@
+{
+  "title": "Stack",
+  "subtitle": "Next.js — React — Tailwind — Node — AWS — MySQL — Prisma.",
+  "tag": "Stack",
+  "cards": [
+    {
+      "key": "apis",
+      "icon": "server",
+      "title": "APIs (Node + Express)",
+      "text": "Routes, controllers, and middleware for clear, maintainable flows.",
+      "details": [
+        "RESTful architecture with clear separation of responsibilities",
+        "Reusable middleware for auth, logging, and validation",
+        "Centralized error handling with consistent responses",
+        "API versioning and integrated documentation"
+      ]
+    },
+    {
+      "key": "auth",
+      "icon": "shield",
+      "title": "Auth and Roles",
+      "text": "JWT, refresh tokens, and RBAC for secure, granular access.",
+      "details": [
+        "Complete flow, login, registration, refresh, and logout",
+        "Token expiration and automatic rotation",
+        "Access control by roles and specific permissions",
+        "Best practices against common attacks, CSRF, XSS"
+      ]
+    },
+    {
+      "key": "data",
+      "icon": "database",
+      "title": "Data Layer",
+      "text": "MySQL or Postgres + Prisma, clear relationships and controlled migrations.",
+      "details": [
+        "Typed Prisma schemas for full consistency",
+        "Versioned and reproducible migrations",
+        "1:N and N:M relations with join tables",
+        "Seeds and fixtures for development and testing"
+      ]
+    }
+  ],
+  "callout": {
+    "title": "Diagnose first, change with intention",
+    "bullets": [
+      "Basic logging and traceability",
+      "Input validation on every endpoint",
+      "Consistent and predictable error handling",
+      "Layered separation, routes, services, db"
+    ]
+  },
+  "proofText": "Applied in real projects like Embipos POS API (Express + Prisma + MySQL).",
+  "ui": {
+    "seeDetails": "See details",
+    "clickToReturn": "Click to return",
+    "ariaOpenDetails": "Open details"
+  }
+}

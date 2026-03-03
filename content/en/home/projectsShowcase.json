@@ -1,0 +1,64 @@
+{
+  "title": "Projects",
+  "subtitle": "Some of the projects I have built",
+  "ui": {
+    "ctaProject": "View project",
+    "ctaRepo": "Repo"
+  },
+  "items": [
+    {
+      "id": "spellbook",
+      "title": "Rohan Spellbook",
+      "description": "Magic: The Gathering e commerce built with a modern and efficient architecture.\n• Frontend with Next.js, React, and Tailwind CSS.\n• Serverless backend on AWS using Lambda.\n• Amazon RDS inside a private VPC.\n• Secure access with an EC2 bastion host and SSH tunnel.",
+      "tech": ["Next.js", "React", "Tailwind", "AWS", "Lambda", "RDS", "VPC", "EC2", "SSH"],
+      "href": "https://rohanspellbook.com/",
+      "repo": "",
+      "galleryKey": "spellbook"
+    },
+    {
+      "id": "Delirios",
+      "title": "Delirios",
+      "description": "I built a website for Delirios, a dessert shop that wanted a clear digital presence and a space to tell their story. The site works as a brand showcase, presenting their history, identity, and values, and displaying their product catalog with simple navigation so anyone can discover them quickly and get in touch easily.",
+      "tech": ["Node.js", "React", "Prisma", "Tailwind", "Google Analytics"],
+      "href": "https://deliriospasteleria.com/",
+      "repo": "",
+      "galleryKey": "Delirios"
+    },
+    {
+      "id": "Equiprocess",
+      "title": "Equiprocess",
+      "description": "Landing page for an industrial company focused on stainless steel engineering and automation. It presents services, industries, and tailored solutions, with a React and Vite frontend and responsive Tailwind design, optimized for performance and lead capture.",
+      "tech": ["Vite", "React", "TypeScript", "TailwindCSS", "ESLint", "PostCSS", "Vercel or Netlify"],
+      "href": "https://equiprocess-project.vercel.app/",
+      "repo": "",
+      "galleryKey": "Equiprocess"
+    },
+    {
+      "id": "Golds",
+      "title": "Golds Food",
+      "description": "The main goal of Golds Food is to deliver an intuitive digital experience that allows users to:\n\n• Explore healthy meal menus.\n• View featured products with images and descriptions.\n• Contact and place orders quickly.\n• Understand the nutritional benefits of each option.\n\nThis type of project is ideal for food businesses looking to strengthen their digital presence and improve customer interaction.",
+      "tech": ["React", "Vite", "Tailwind CSS", "JSON"],
+      "href": "https://goldsfood-landing-ja4t.vercel.app/",
+      "repo": "",
+      "galleryKey": "Golds"
+    },
+    {
+      "id": "Significarte",
+      "title": "Significarte",
+      "description": "Landing page built for Fundación Significarte, a non profit organization focused on restoring rights for vulnerable communities. The project presents who they are, their mission, and social impact, showcases the programs and groups they support, enables contact, volunteering, and donations through an accessible and emotionally thoughtful interface, and provides a modern, fast platform with a strong visual identity.",
+      "tech": ["React", "TypeScript", "Vite", "TailwindCSS", "Radix UI", "shadcn style UI", "React Query"],
+      "href": "https://signific-arte.vercel.app/",
+      "repo": "",
+      "galleryKey": "Significarte"
+    },
+    {
+      "id": "Huggies",
+      "title": "Huggies",
+      "description": "Co branded landing page for the Ser Mamá by Simona and Huggies partnership, designed for content and product campaigns. I implemented a responsive experience with a custom header, strong hero, video section, adaptive ad banner, and a carousel with optimized behavior across mobile and desktop. Site content is managed through JSON files to enable fast edits to text, images, and sections.",
+      "tech": ["React", "TypeScript", "Vite", "TailwindCSS", "JSON", "Responsive Design", "Vercel"],
+      "href": "https://huggies-project.vercel.app/",
+      "repo": "",
+      "galleryKey": "Huggies"
+    }
+  ]
+}
