@@ -3,7 +3,7 @@ import { SimpleProfileCard } from "./SimpleProfileCard";
 import SocialLinks from "./SocialLinks";
 
 type Props = {
-  hero: typeof import("@/content/home/hero.json");
+  hero: typeof import("@/content/en/home/hero.json");
 };
 
 export default function IntroOverlay({ hero }: Props) {

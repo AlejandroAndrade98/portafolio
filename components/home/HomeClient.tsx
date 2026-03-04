@@ -10,6 +10,8 @@ import StackSection from "@/components/home/StackSection";
 import ProjectsSection from "@/components/home/ProjectsSection";
 import HomeHeader from "@/components/home/HomeHeader";
 
+type MenuData = typeof import("@/content/en/home/menu.json");
+
 import type { ComponentProps } from "react";
 
 type HeroData = typeof import("@/content/en/home/hero.json");
@@ -20,13 +22,14 @@ type ProjectsShowcaseData = typeof import("@/content/en/home/projectsShowcase.js
 type ProjectsGalleriesData = typeof import("@/content/en/home/projectsGalleries.json");
 
 type HomeClientProps = {
+  locale: "en" | "es";
   hero: HeroData;
   about: AboutData;
   aboutPixelCards: AboutPixelCardsData;
   stack: StackData;
   projectsShowcase: ProjectsShowcaseData;
   projectsGalleries: ProjectsGalleriesData;
-  locale: "en" | "es";
+  menu: MenuData;
 };
 
 export default function HomeClient({
@@ -36,6 +39,7 @@ export default function HomeClient({
   stack,
   projectsShowcase,
   projectsGalleries,
+  menu,
   locale,
 }: HomeClientProps) {
   const mainRef = useRef<HTMLElement | null>(null);
@@ -55,7 +59,7 @@ export default function HomeClient({
 
   return (
     <>
-      <HomeHeader hero={hero} />
+      <HomeHeader hero={hero} locale={locale} menu={menu} />
 
       <main ref={mainRef} className="relative">
         <div

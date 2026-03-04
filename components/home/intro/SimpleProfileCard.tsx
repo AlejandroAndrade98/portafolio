@@ -1,14 +1,11 @@
 import Image from "next/image";
 import styles from "./IntroSection.module.css";
 
-const technologies = [
-  { name: "React", icon: "⚛️" },
-  { name: "TypeScript", icon: "🔷" },
-  { name: "Node.js", icon: "🟢" },
-  { name: "Next.js", icon: "▲" },
-  { name: "AWS", icon: "☁️" },
-  { name: "PostgreSQL", icon: "🐘" },
-];
+type ProfileUI = {
+  techTitle: string;
+  technologies: { name: string; icon: string }[];
+  stats: { value: string; label: string }[];
+};
 
 type Props = {
   name: string;
@@ -19,6 +16,7 @@ type Props = {
   mail?: string;
   phone?: string;
   showUserInfo?: boolean;
+  profileUI?: ProfileUI;
 };
 
 export function SimpleProfileCard({
@@ -30,8 +28,14 @@ export function SimpleProfileCard({
   mail,
   phone,
   showUserInfo = false,
+  profileUI,
 }: Props) {
   const waHref = phone ? `https://wa.me/${phone.replace(/\D/g, "")}` : "";
+
+  // ✅ AQUÍ van las constantes (dentro del componente, antes del return)
+  const techTitle = profileUI?.techTitle ?? "Tech Stack";
+  const technologies = profileUI?.technologies ?? [];
+  const stats = profileUI?.stats ?? [];
 
   return (
     <div className="relative">
@@ -60,32 +64,32 @@ export function SimpleProfileCard({
             <h3 className="text-xl font-bold text-white truncate">{name}</h3>
             <p className="text-slate-400 text-sm truncate">@{handle}</p>
 
-            {/* ✅ NUEVO: mail + phone justo debajo del handle */}
-{showUserInfo && (mail || phone) && (
-  <div className="mt-1 space-y-1 text-sm text-slate-400 min-w-0">
-    {mail && (
-      <a
-        href={`mailto:${mail}`}
-        className="block truncate hover:text-slate-200 transition select-text"
-        title={mail}
-      >
-        {mail}
-      </a>
-    )}
+            {showUserInfo && (mail || phone) && (
+              <div className="mt-1 space-y-1 text-sm text-slate-400 min-w-0">
+                {mail && (
+                  <a
+                    href={`mailto:${mail}`}
+                    className="block truncate hover:text-slate-200 transition select-text"
+                    title={mail}
+                  >
+                    {mail}
+                  </a>
+                )}
 
-    {phone && (
-      <a
-        href={waHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block truncate hover:text-slate-200 transition select-text"
-        title={phone}
-      >
-        {phone}
-      </a>
-    )}
-  </div>
-)}
+                {phone && (
+                  <a
+                    href={waHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block truncate hover:text-slate-200 transition select-text"
+                    title={phone}
+                  >
+                    {phone}
+                  </a>
+                )}
+              </div>
+            )}
+
             <p className="text-slate-400 text-sm mt-2">{title}</p>
 
             <span className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-medium rounded-full">
@@ -99,7 +103,7 @@ export function SimpleProfileCard({
 
         <div>
           <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-4">
-            Tech Stack
+            {techTitle}
           </p>
 
           <div className="grid grid-cols-3 gap-3">
@@ -118,18 +122,22 @@ export function SimpleProfileCard({
         {/* Stats mini – ocultos en mobile */}
         <div className="hidden sm:flex items-center justify-between mt-8 pt-6 border-t border-white/5">
           <div className="text-center">
-            <p className="text-2xl font-bold text-white">2+</p>
-            <p className="text-xs text-slate-500">Años exp.</p>
+            <p className="text-2xl font-bold text-white">{stats[0]?.value ?? "2+"}</p>
+            <p className="text-xs text-slate-500">{stats[0]?.label ?? "Years exp."}</p>
           </div>
+
           <div className="w-px h-8 bg-white/10" />
+
           <div className="text-center">
-            <p className="text-2xl font-bold text-white">5+</p>
-            <p className="text-xs text-slate-500">Proyectos entregados</p>
+            <p className="text-2xl font-bold text-white">{stats[1]?.value ?? "5+"}</p>
+            <p className="text-xs text-slate-500">{stats[1]?.label ?? "Projects delivered"}</p>
           </div>
+
           <div className="w-px h-8 bg-white/10" />
+
           <div className="text-center">
-            <p className="text-2xl font-bold text-white">Focus</p>
-            <p className="text-xs text-slate-500">Backend</p>
+            <p className="text-2xl font-bold text-white">{stats[2]?.value ?? "Focus"}</p>
+            <p className="text-xs text-slate-500">{stats[2]?.label ?? "Backend"}</p>
           </div>
         </div>
       </div>

@@ -3,23 +3,27 @@
 import Image from "next/image";
 import HeaderMenu from "./intro/HeaderMenu";
 
+type MenuData = typeof import("@/content/en/home/menu.json");
+
 type Props = {
-  hero: typeof import("@/content/home/hero.json");
+  hero: typeof import("@/content/en/home/hero.json");
+  locale: "en" | "es";
+  menu: MenuData;
 };
 
-export default function HomeHeader({ hero }: Props) {
+export default function HomeHeader({ hero, locale, menu }: Props) {
+  const mail = hero.profileCard?.mail ?? "alejandro21112@hotmail.com";
+  const phone = hero.profileCard?.phone ?? "+573203119505";
+  const wa = `https://wa.me/${phone.replace(/\D/g, "")}`;
+
   return (
-    <div
-      id="site-header"
-      className="fixed inset-x-0 top-0 z-[150] pointer-events-none isolate"
-    >
+    <div id="site-header" className="fixed inset-x-0 top-0 z-[150] pointer-events-none isolate">
       <div
         className="
           pointer-events-auto mx-auto
           w-[min(520px,92vw)]
           sm:w-full sm:max-w-6xl
           lg:max-w-none
-
           pt-6 sm:pt-8 lg:pt-10
           sm:px-6 lg:px-10 2xl:px-14
         "
@@ -37,10 +41,12 @@ export default function HomeHeader({ hero }: Props) {
 
           <div className="shrink-0">
             <HeaderMenu
-              mailto="mailto:alejandro21112@hotmail.com"
+              locale={locale}
+              labels={menu}
+              mailto={`mailto:${mail}`}
               github="https://github.com/AlejandroAndrade98"
               linkedin="https://www.linkedin.com/in/alejandroandrade-tech"
-              whatsapp="https://wa.me/573203119505"
+              whatsapp={wa}
             />
           </div>
         </header>

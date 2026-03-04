@@ -10,6 +10,7 @@ export async function loadHomeContent(locale: Locale) {
       projectsGalleries: (await import("@/content/en/home/projectsGalleries.json")).default,
       projectsShowcase: (await import("@/content/en/home/projectsShowcase.json")).default,
       stack: (await import("@/content/en/home/stack.json")).default,
+      menu: (await import("@/content/en/home/menu.json")).default
     }),
     es: async () => ({
       about: (await import("@/content/es/home/about.json")).default,
@@ -19,6 +20,7 @@ export async function loadHomeContent(locale: Locale) {
       projectsGalleries: (await import("@/content/es/home/projectsGalleries.json")).default,
       projectsShowcase: (await import("@/content/es/home/projectsShowcase.json")).default,
       stack: (await import("@/content/es/home/stack.json")).default,
+      menu: (await import("@/content/es/home/menu.json")).default,
     }),
   } as const;
 

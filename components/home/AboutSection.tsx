@@ -4,8 +4,8 @@ import ScrollReveal from "@/components/animate-ui/ScrollReveal";
 import LightRays from "@/components/animate-ui/LightRays";
 // import PixelCardCarousel from "@/components/PixelCardCarousel";
 
-type AboutData = typeof import("@/content/home/about.json");
-type PixelCardsData = typeof import("@/content/home/aboutPixelCards.json");
+type AboutData = typeof import("@/content/en/home/about.json");
+type PixelCardsData = typeof import("@/content/en/home/aboutPixelCards.json");
 
 type AboutSectionProps = {
   about: AboutData;

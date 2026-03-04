@@ -21,6 +21,7 @@ export default async function Page({
       stack={data.stack}
       projectsShowcase={data.projectsShowcase}
       projectsGalleries={data.projectsGalleries}
+      menu={data.menu}
     />
   );
 }

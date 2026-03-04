@@ -1,0 +1,18 @@
+{
+  "title": "Menú",
+  "sections": {
+    "nav": "Navegación",
+    "actions": "Acciones",
+    "social": "Redes"
+  },
+  "items": {
+    "intro": "Inicio",
+    "about": "Sobre mí",
+    "projects": "Proyectos",
+    "stack": "Tecnologías"
+  },
+  "actions": {
+    "contact": "Contáctame",
+    "viewProjects": "Ver proyectos"
+  }
+}

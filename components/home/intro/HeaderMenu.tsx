@@ -2,8 +2,13 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import SocialLinks from "./SocialLinks";
+import LocaleToggle from "@/components/i18n/LocaleToggle";
+
+type MenuLabels = typeof import("@/content/en/home/menu.json");
 
 type Props = {
+  locale: "en" | "es";
+  labels: MenuLabels;
   mailto?: string;
   github?: string;
   linkedin?: string;
@@ -13,6 +18,8 @@ type Props = {
 type SectionKey = "intro" | "about" | "projects" | "stack";
 
 export default function HeaderMenu({
+  locale,
+  labels,
   mailto = "mailto:alejandro21112@hotmail.com",
   github = "https://github.com/AlejandroAndrade98",
   linkedin = "https://www.linkedin.com/in/alejandroandrade-tech",
@@ -30,7 +37,6 @@ export default function HeaderMenu({
   const rafRef = useRef<number | null>(null);
 
   const getScrollY = () => window.scrollY ?? document.documentElement.scrollTop ?? 0;
-
   const closeMenu = () => setOpen(false);
 
   const setActiveSafe = (key: SectionKey) => {
@@ -46,7 +52,7 @@ export default function HeaderMenu({
 
   const updateActiveFromScroll = () => {
     const y = getScrollY();
-    const spyY = y + window.innerHeight * 0.35; // línea “activa” (35% desde arriba)
+    const spyY = y + window.innerHeight * 0.35;
 
     const tops = topsRef.current;
     if (!tops.length) return;
@@ -67,42 +73,37 @@ export default function HeaderMenu({
     });
   };
 
-const getHeaderOffset = () => {
-  const hdr = document.getElementById("site-header");
-  if (!hdr) return 96; // fallback
-  const rect = hdr.getBoundingClientRect();
-  return rect.height + 12; // un poquito de aire
-};
+  const getHeaderOffset = () => {
+    const hdr = document.getElementById("site-header");
+    if (!hdr) return 96;
+    const rect = hdr.getBoundingClientRect();
+    return rect.height + 12;
+  };
 
-const skipFocusRestoreRef = useRef(false);
+  const skipFocusRestoreRef = useRef(false);
 
-const scrollTo = (key: SectionKey, selector: string) => {
-  setActiveSafe(key);
+  const scrollTo = (key: SectionKey, selector: string) => {
+    setActiveSafe(key);
+    skipFocusRestoreRef.current = true;
+    closeMenu();
 
-  // evita que el focus-restore meta un “jump” al cerrar
-  skipFocusRestoreRef.current = true;
-
-  closeMenu();
-
-  requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      const el = document.querySelector(selector) as HTMLElement | null;
-      if (!el) {
-        skipFocusRestoreRef.current = false;
-        return;
-      }
+      requestAnimationFrame(() => {
+        const el = document.querySelector(selector) as HTMLElement | null;
+        if (!el) {
+          skipFocusRestoreRef.current = false;
+          return;
+        }
 
-      const y = window.scrollY + el.getBoundingClientRect().top - getHeaderOffset();
-      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+        const y = window.scrollY + el.getBoundingClientRect().top - getHeaderOffset();
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
 
-      // re-habilita focus-restore después del scroll
-      window.setTimeout(() => {
-        skipFocusRestoreRef.current = false;
-      }, 500);
+        window.setTimeout(() => {
+          skipFocusRestoreRef.current = false;
+        }, 500);
+      });
     });
-  });
-};
-
+  };
 
   // ESC + lock scroll + devolver foco al botón al cerrar
   useEffect(() => {
@@ -125,12 +126,12 @@ const scrollTo = (key: SectionKey, selector: string) => {
         return;
       }
       if (!skipFocusRestoreRef.current) {
-  buttonRef.current?.focus();
-}
+        buttonRef.current?.focus();
+      }
     }
   }, [open]);
 
-  // Scroll-spy (robusto)
+  // Scroll spy
   useEffect(() => {
     const ids: { key: SectionKey; sel: string }[] = [
       { key: "intro", sel: "#intro" },
@@ -158,13 +159,13 @@ const scrollTo = (key: SectionKey, selector: string) => {
     window.addEventListener("resize", onResize);
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    const t = window.setTimeout(() => {
+    const timeout = window.setTimeout(() => {
       recomputeTops();
       updateActiveFromScroll();
     }, 250);
 
     return () => {
-      window.clearTimeout(t);
+      window.clearTimeout(timeout);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("scroll", onScroll);
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
@@ -175,7 +176,7 @@ const scrollTo = (key: SectionKey, selector: string) => {
   const isInicioDisabled = active === "intro";
 
   const navItemBase =
-    "w-full rounded-2xl px-4 py-3 text-left text-white/90 " +
+    "w-full rounded-xl sm:rounded-2xl px-4 py-2.5 sm:py-3 text-left text-white/90 " +
     "bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/15 transition";
 
   const navItemActive =
@@ -186,19 +187,19 @@ const scrollTo = (key: SectionKey, selector: string) => {
 
   return (
     <>
-      {/* Botón hamburger (2 líneas) */}
+      {/* Botón hamburger */}
       <button
         ref={buttonRef}
         type="button"
-        aria-label="Abrir menú"
+        aria-label={labels.title}
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen(true)}
         className="pointer-events-auto inline-flex items-center justify-center rounded-2xl p-3
-             border border-white/10 bg-white/5 backdrop-blur
+                   border border-white/10 bg-white/5 backdrop-blur
                    hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-400/30"
       >
-        <span className="sr-only">Abrir menú</span>
+        <span className="sr-only">{labels.title}</span>
         <span className="flex flex-col gap-1.5">
           <span className="h-[2px] w-6 rounded-full bg-white/85" />
           <span className="h-[2px] w-5 rounded-full bg-white/65" />
@@ -213,23 +214,23 @@ const scrollTo = (key: SectionKey, selector: string) => {
         ].join(" ")}
         aria-hidden={!open}
       >
-        {/* Overlay */}
+        {/* Overlay visual (sin click handler) */}
+        <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px] pointer-events-none" />
+
+        {/* ✅ click afuera cierra */}
         <div
-          className="absolute inset-0 bg-black/55 backdrop-blur-[2px]"
-          onClick={closeMenu}
-        />
-
-        {/* ✅ Contenedor responsive: centro en phones, esquina en sm+ */}
-        <div className="relative h-full w-full p-4 sm:p-6 lg:p-8 flex items-center justify-center sm:items-start sm:justify-end">
-
-          {/* Panel */}
+          className="relative h-full w-full p-4 sm:p-6 lg:p-8 flex items-center justify-center sm:items-start sm:justify-end"
+          onPointerDown={closeMenu}
+        >
+          {/* ✅ click dentro NO cierra */}
           <div
             id={panelId}
             role="dialog"
             aria-modal="true"
+            onPointerDown={(e) => e.stopPropagation()}
             className={[
               "w-[min(92vw,420px)] sm:w-[min(420px,36vw)]",
-              "max-h-[85svh] overflow-hidden",
+              "max-h-[92svh] overflow-hidden",
               "rounded-3xl border border-white/12 bg-white/6 backdrop-blur-xl",
               "shadow-2xl shadow-black/40",
               "transform transition-transform duration-200",
@@ -238,16 +239,16 @@ const scrollTo = (key: SectionKey, selector: string) => {
                 : "translate-y-6 sm:translate-y-0 sm:translate-x-3 scale-[0.98]",
             ].join(" ")}
           >
-            {/* Scroll interno si se pasa de alto */}
-            <div className="max-h-[85svh] overflow-y-auto">
-              <div className="p-5 sm:p-6">
+            {/* ✅ scrollbar oculto pero scroll permitido */}
+            <div className="max-h-[92svh] overflow-y-auto no-scrollbar">
+              <div className="p-4 sm:p-6">
                 {/* Header */}
-                <div className="flex items-center justify-between">
-                  <p className="text-white font-semibold tracking-tight">Menú</p>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-white font-semibold tracking-tight">{labels.title}</p>
 
                   <button
                     type="button"
-                    aria-label="Cerrar menú"
+                    aria-label={locale === "es" ? "Cerrar" : "Close"}
                     onClick={closeMenu}
                     className="inline-flex items-center justify-center rounded-xl p-2
                                hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20"
@@ -259,12 +260,12 @@ const scrollTo = (key: SectionKey, selector: string) => {
                   </button>
                 </div>
 
-                <div className="mt-4 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+                <div className="mt-3 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
                 {/* Navegación */}
-                <div className="mt-5">
-                  <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-3">
-                    Navegación
+                <div className="mt-4 sm:mt-5">
+                  <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-2">
+                    {labels.sections.nav}
                   </p>
 
                   <div className="grid gap-2">
@@ -279,7 +280,7 @@ const scrollTo = (key: SectionKey, selector: string) => {
                         isInicioDisabled ? navItemDisabled : "",
                       ].join(" ")}
                     >
-                      Inicio
+                      {labels.items.intro}
                     </button>
 
                     <button
@@ -287,18 +288,15 @@ const scrollTo = (key: SectionKey, selector: string) => {
                       onClick={() => scrollTo("about", "#about")}
                       className={[navItemBase, active === "about" ? navItemActive : ""].join(" ")}
                     >
-                      Sobre mí
+                      {labels.items.about}
                     </button>
 
                     <button
                       type="button"
                       onClick={() => scrollTo("projects", "#projects")}
-                      className={[
-                        navItemBase,
-                        active === "projects" ? navItemActive : "",
-                      ].join(" ")}
+                      className={[navItemBase, active === "projects" ? navItemActive : ""].join(" ")}
                     >
-                      Proyectos
+                      {labels.items.projects}
                     </button>
 
                     <button
@@ -306,44 +304,49 @@ const scrollTo = (key: SectionKey, selector: string) => {
                       onClick={() => scrollTo("stack", "#stack")}
                       className={[navItemBase, active === "stack" ? navItemActive : ""].join(" ")}
                     >
-                      Tecnologías
+                      {labels.items.stack}
                     </button>
                   </div>
                 </div>
 
                 {/* Acciones */}
-                <div className="mt-5">
-                  <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-3">
-                    Acciones
+                <div className="mt-4 sm:mt-5">
+                  <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-2">
+                    {labels.sections.actions}
                   </p>
 
                   <div className="grid grid-cols-2 gap-3">
                     <a
                       href={mailto}
                       onClick={closeMenu}
-                      className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
+                      className="inline-flex items-center justify-center px-4 py-2.5 sm:py-3 rounded-2xl font-semibold text-white
                                  bg-gradient-to-r from-blue-500 to-purple-800
                                  transition-transform duration-200 active:scale-[0.98]"
                     >
-                      Contáctame
+                      {labels.actions.contact}
                     </a>
 
                     <button
                       type="button"
                       onClick={() => scrollTo("projects", "#projects")}
-                      className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold text-white
+                      className="inline-flex items-center justify-center px-4 py-2.5 sm:py-3 rounded-2xl font-semibold text-white
                                  border border-white/15 bg-white/5
                                  transition-transform duration-200 active:scale-[0.98]"
                     >
-                      Ver Proyectos
+                      {labels.actions.viewProjects}
                     </button>
+
+                    {/* Toggle centrado */}
+                    <div className="col-span-2 flex justify-center pt-0.5">
+                      <LocaleToggle locale={locale} size="sm" />
+                    </div>
                   </div>
                 </div>
 
                 {/* Redes */}
-                <div className="mt-5">
-                  <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-3 text-center">
-                    Redes
+                <div className="mt-4 sm:mt-5">
+                  <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-2 text-center">
+                    {labels.sections.social}
                   </p>
                   <div className="flex justify-center">
                     <SocialLinks github={github} linkedin={linkedin} whatsapp={whatsapp} />
@@ -351,8 +354,7 @@ const scrollTo = (key: SectionKey, selector: string) => {
                 </div>
               </div>
 
-              {/* Safe bottom (por si hay notch / home bar) */}
-              <div className="h-[max(12px,env(safe-area-inset-bottom))]" />
+              <div className="h-[max(6px,env(safe-area-inset-bottom))]" />
             </div>
           </div>
         </div>

@@ -1,4 +1,20 @@
 {
+  "profileUI": {
+  "techTitle": "Tech Stack",
+  "technologies": [
+    { "name": "React", "icon": "⚛️" },
+    { "name": "TypeScript", "icon": "🔷" },
+    { "name": "Node.js", "icon": "🟢" },
+    { "name": "Next.js", "icon": "▲" },
+    { "name": "AWS", "icon": "☁️" },
+    { "name": "PostgreSQL", "icon": "🐘" }
+  ],
+  "stats": [
+    { "value": "2+", "label": "Años exp." },
+    { "value": "5+", "label": "Proyectos entregados" },
+    { "value": "Focus", "label": "Backend" }
+  ]
+  },
   "introText": {
   "hello": "Hola, soy",
   "ctaContact": "Contáctame",

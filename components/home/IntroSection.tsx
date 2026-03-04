@@ -109,6 +109,7 @@ export default function IntroSection({ hero, isMobile = false, locale }: IntroSe
                   showUserInfo={hero.profileCard?.showUserInfo ?? true}
                   title={hero.profileCard?.title ?? "Software Developer"}
                   avatarSrc={hero.profileCard?.avatarUrl ?? "/avatar.jpg"}
+                  profileUI={hero.profileUI}
                 />
 
                 {/* ✅ Mobile CTAs dentro del cuadro */}
