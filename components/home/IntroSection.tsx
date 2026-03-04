@@ -193,7 +193,7 @@ export default function IntroSection({ hero, isMobile = false, locale }: IntroSe
                 >
                 {hero.introText?.ctaPortfolio ?? "View Portfolio"}
                 </button>
-                <LocaleToggle locale={locale} size="md" />
+                <LocaleToggle locale={locale} size="md" className="shadow-[0_8px_24px_rgba(56,189,248,0.20)]"/>
               </div>
 
               <div className={styles.animateSocial}>

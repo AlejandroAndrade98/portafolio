@@ -58,7 +58,7 @@ export default function LocaleToggle({
         className={[
           "absolute top-1 bottom-1 left-1",
           "w-[calc(50%-0.25rem)]",
-          "rounded-full bg-white/15",
+          "rounded-full bg-sky-400/25",
           "shadow-[0_8px_24px_rgba(0,0,0,0.35)]",
           "transition-transform duration-300 ease-out",
           locale === "es" ? "translate-x-full" : "translate-x-0",

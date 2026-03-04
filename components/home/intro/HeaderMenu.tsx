@@ -338,7 +338,7 @@ export default function HeaderMenu({
 
                     {/* Toggle centrado */}
                     <div className="col-span-2 flex justify-center pt-0.5">
-                      <LocaleToggle locale={locale} size="sm" />
+                      <LocaleToggle locale={locale} size="sm" className="shadow-[0_8px_24px_rgba(56,189,248,0.20)]"/>
                     </div>
                   </div>
                 </div>
